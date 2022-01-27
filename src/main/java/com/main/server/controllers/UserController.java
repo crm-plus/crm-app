@@ -1,5 +1,6 @@
 package com.main.server.controllers;
 
+import com.main.server.dto.UserDTO;
 import com.main.server.dto.UserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
