@@ -2,7 +2,7 @@ package com.main.server.controllers;
 
 import com.main.server.dto.UserDTO;
 import com.main.server.exception.ResourceNotFoundException;
-import com.main.server.service.UserService;
+import com.main.server.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
