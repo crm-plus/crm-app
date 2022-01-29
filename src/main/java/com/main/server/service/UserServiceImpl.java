@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDTO> getAllUsers() {
-        return userRepository.getALl().stream()
+        return userRepository.getAll().stream()
                 .map(UserMapper.INSTANCE::userToDTO)
                 .collect(Collectors.toList());
     }
@@ -43,7 +43,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDTO updateUser(Long id, UserDTO userData) {
         User user = UserMapper.INSTANCE.dtoToUser(userData);
-        return UserMapper.INSTANCE.userToDTO(userRepository.update(id, user));
+        user.setId(id);
+        return UserMapper.INSTANCE.userToDTO(userRepository.save(user));
     }
 
     @Override
