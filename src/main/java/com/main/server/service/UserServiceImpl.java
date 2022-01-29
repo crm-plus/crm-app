@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private static final String USER_NOT_FOUND_BY_ID = "User not found by id: ";
 
     @Override

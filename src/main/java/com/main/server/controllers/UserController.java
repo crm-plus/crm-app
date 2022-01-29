@@ -2,42 +2,47 @@ package com.main.server.controllers;
 
 import com.main.server.dto.UserDTO;
 import com.main.server.dto.UserRequest;
+import com.main.server.exception.ResourceAlreadyExist;
+import com.main.server.service.UserService;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Access;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = {"/api/users"})
+@AllArgsConstructor
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private final UserService userService;
 
     @GetMapping(path = "/")
     public ResponseEntity<List<UserDTO>> getUsers() {
-
-        return null;
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}/")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-
-        return null;
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws ResourceAlreadyExist {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserRequest user) {
-        return null;
+    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO user) {
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}/")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserRequest user) {
-        return null;
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
+        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}/")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        return null;
+        return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
     }
 }
