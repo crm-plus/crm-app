@@ -1,8 +1,7 @@
 package com.main.server.controllers;
 
 import com.main.server.dto.UserDTO;
-import com.main.server.dto.UserRequest;
-import com.main.server.exception.ResourceAlreadyExist;
+import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Access;
 import java.util.List;
 
 @RestController
@@ -27,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}/")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws ResourceAlreadyExist {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 

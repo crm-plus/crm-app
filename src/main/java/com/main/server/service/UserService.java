@@ -1,14 +1,13 @@
 package com.main.server.service;
 
 import com.main.server.dto.UserDTO;
-import com.main.server.dto.UserData;
-import com.main.server.exception.ResourceAlreadyExist;
+import com.main.server.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 public interface UserService {
 
-    UserDTO getUser(Long id) throws ResourceAlreadyExist;
+    UserDTO getUser(Long id) throws ResourceNotFoundException;
 
     List<UserDTO>  getAllUsers();
 

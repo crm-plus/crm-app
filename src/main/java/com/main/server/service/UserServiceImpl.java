@@ -1,13 +1,11 @@
 package com.main.server.service;
 
 import com.main.server.dto.UserDTO;
-import com.main.server.dto.UserData;
 import com.main.server.entity.User;
-import com.main.server.exception.ResourceAlreadyExist;
+import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.mapper.UserMapper;
 import com.main.server.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +20,10 @@ public class UserServiceImpl implements UserService{
     private static final String USER_NOT_FOUND_BY_ID = "User not found by id: ";
 
     @Override
-    public UserDTO getUser(Long id) throws ResourceAlreadyExist {
+    public UserDTO getUser(Long id) throws ResourceNotFoundException {
         Optional<User> user = userRepository.findById(id);
         return UserMapper.INSTANCE.userToDTO(
-                user.orElseThrow(() -> new ResourceAlreadyExist(USER_NOT_FOUND_BY_ID + id))
+                user.orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id))
         );
     }
 
