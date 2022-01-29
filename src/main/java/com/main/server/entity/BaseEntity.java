@@ -1,11 +1,11 @@
 package com.main.server.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @MappedSuperclass
+@Data
 public class BaseEntity {
 
     @Id
