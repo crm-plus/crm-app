@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
     public void processRegister(UserRequest userRequest) {
         User newUser = AccountMapper.INSTANCE.UserRequestToUser(userRequest);
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        userRequest.getRoleIds().stream().forEach(id->{
+        userRequest.getRoleIds().forEach(id->{
             Role role = roleRepository.findById(id).get();//error!!!
             newUser.addRole(role);
         });
