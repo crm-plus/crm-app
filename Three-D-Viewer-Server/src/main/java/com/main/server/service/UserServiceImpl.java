@@ -5,6 +5,7 @@ import com.main.server.entity.User;
 import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.mapper.UserMapper;
 import com.main.server.repository.UserRepository;
+import com.main.server.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private static final String USER_NOT_FOUND_BY_ID = "User not found by id: ";

@@ -1,4 +1,4 @@
-package com.main.server.service;
+package com.main.server.service.interfaces;
 
 import com.main.server.dto.UserDTO;
 import com.main.server.exception.ResourceNotFoundException;
