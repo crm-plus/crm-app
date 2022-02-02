@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
-
+    
     @GetMapping(path = "/")
     public ResponseEntity<List<UserDTO>> getUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
