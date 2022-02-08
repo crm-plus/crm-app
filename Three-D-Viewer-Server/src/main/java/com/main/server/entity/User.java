@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -40,5 +41,9 @@ public class User extends BaseEntity {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public void clearRoles() {
+        roles = new HashSet<>();
     }
 }
