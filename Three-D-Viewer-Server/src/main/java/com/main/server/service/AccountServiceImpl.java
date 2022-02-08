@@ -9,7 +9,7 @@ import com.main.server.repository.RoleRepository;
 import com.main.server.service.interfaces.AccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,19 +18,19 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
     @Override
     public void processRegister(UserRequest userRequest) {
-        User newUser = AccountMapper.INSTANCE.UserRequestToUser(userRequest);
-        newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        userRequest.getRoleIds().forEach(id->{
-            Role role = roleRepository.findById(id).get();//error!!!
-            newUser.addRole(role);
-        });
-        accountRepository.save(newUser);
-
-        log.info("IN processRegister - user: {} successfully registered", newUser);
+//        User newUser = AccountMapper.INSTANCE.UserRequestToUser(userRequest);
+//        newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+//        userRequest.getRoleIds().forEach(id->{
+//            Role role = roleRepository.findById(id).get();//error!!!
+//            newUser.addRole(role);
+//        });
+//        accountRepository.save(newUser);
+//
+//        log.info("IN processRegister - user: {} successfully registered", newUser);
     }
 }

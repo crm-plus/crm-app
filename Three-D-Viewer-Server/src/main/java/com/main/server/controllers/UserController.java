@@ -1,6 +1,7 @@
 package com.main.server.controllers;
 
 import com.main.server.dto.UserDTO;
+import com.main.server.dto.UserRequest;
 import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.service.interfaces.UserService;
 import lombok.AllArgsConstructor;
@@ -24,13 +25,13 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}/")
+    @GetMapping(path = "{id}/")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO user) {
+    public ResponseEntity<UserDTO> saveUser(@RequestBody UserRequest user) throws ResourceNotFoundException {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 

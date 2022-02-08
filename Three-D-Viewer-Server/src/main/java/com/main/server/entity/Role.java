@@ -10,12 +10,13 @@ import java.util.Set;
 
 @Entity(name = "roles")
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class Role extends BaseEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 }

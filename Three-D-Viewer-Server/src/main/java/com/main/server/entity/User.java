@@ -4,12 +4,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "users")
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity {
 
     @Column(name = "first_name", nullable = false, length = 20)
@@ -24,13 +25,20 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false, length = 64)
     private String password;
 
+    @Column(name = "birth_date")
+    private Date birthDate;
+
     @Column(name = "residential_address")
     private String residentialAddress;
+
+    @Column(name = "deleted")
+    private boolean isDeleted;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sex")
     private Sex sex;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "users_roles",
@@ -40,6 +48,9 @@ public class User extends BaseEntity {
     private Set<Role> roles;
 
     public void addRole(Role role) {
+        if(roles == null) {
+            roles = new HashSet<>();
+        }
         roles.add(role);
     }
 
