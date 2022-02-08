@@ -4,8 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -38,7 +36,7 @@ public class User extends BaseEntity {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public void addRole(Role role) {
         roles.add(role);

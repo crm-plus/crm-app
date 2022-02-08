@@ -31,22 +31,22 @@ public class AccountServiceImpl implements AccountService {
     private static final String ROLE_NOT_FOUND_BY_ID = "Role not found by id: ";
 
     @Override
-    public void processRegister(UserRequest userRequest) {
+    public void processRegister(UserRequest userRequest) throws ResourceNotFoundException {
         User newUser = AccountMapper.INSTANCE.UserRequestToUser(userRequest);
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        userRequest.getRoleIds().forEach(id -> {
+        for (Long ids : userRequest.getRoleIds()) {
             Role role = roleRepository
-                    .findById(id).get();
-            //.orElseThrow(() -> new ResourceNotFoundException(ROLE_NOT_FOUND_BY_ID + id));
+                    .findById(ids)
+                    .orElseThrow(() -> new ResourceNotFoundException(ROLE_NOT_FOUND_BY_ID + ids));
             newUser.addRole(role);
-        });
+        }
         accountRepository.save(newUser);
 
         log.info("IN processRegister - user: {} successfully registered", newUser);
     }
 
     @Override
-    public String signIn(String email, String password, String remoteAddr) {
+    public String signIn(String email, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             return jwtTokenProvider.createToken(email, accountRepository.findByEmail(email).getRoles());

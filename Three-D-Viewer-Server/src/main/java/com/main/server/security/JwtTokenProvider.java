@@ -3,7 +3,7 @@ package com.main.server.security;
 import com.main.server.entity.Role;
 import com.main.server.exception.JwtAuthenticationException;
 import io.jsonwebtoken.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,13 +13,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtTokenProvider {
 
     @Value("${jwt.token.secret}")
@@ -33,7 +30,7 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, List<Role> role) {
+    public String createToken(String username, Set<Role> role) {
 
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", getRoleNames(role));
@@ -78,7 +75,7 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<Role> userRoles) {
+    private List<String> getRoleNames(Set<Role> userRoles) {
         List<String> result = new ArrayList<>();
         userRoles.forEach(role -> {
             result.add(role.getName());

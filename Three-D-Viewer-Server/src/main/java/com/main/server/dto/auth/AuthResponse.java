@@ -1,4 +1,4 @@
-package com.main.server.entity.payload;
+package com.main.server.dto.auth;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

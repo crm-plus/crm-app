@@ -1,14 +1,12 @@
 package com.main.server.controllers;
 
 import com.main.server.dto.UserRequest;
-import com.main.server.entity.payload.AuthResponse;
+import com.main.server.dto.auth.AuthResponse;
+import com.main.server.dto.auth.Credentials;
+import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.service.interfaces.AccountService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = {"/api/account"})
@@ -18,13 +16,15 @@ public class AccountController {
     private final AccountService accountService;
 
     @RequestMapping("/register")
-    public void registration(UserRequest userRequest) {
+    public void registration(UserRequest userRequest) throws ResourceNotFoundException {
         accountService.processRegister(userRequest);
     }
 
-    public AuthResponse signIn(@RequestParam String email,
-                               @RequestParam String password,
-                               HttpServletRequest request) {
-        return new AuthResponse(accountService.signIn(email, password, request.getRemoteAddr()));
+    @PostMapping("/signin")
+    public AuthResponse signIn(@RequestBody Credentials credentials) {
+        return new AuthResponse(accountService.signIn(
+                credentials.getEmail(),
+                credentials.getPassword())
+        );
     }
 }
