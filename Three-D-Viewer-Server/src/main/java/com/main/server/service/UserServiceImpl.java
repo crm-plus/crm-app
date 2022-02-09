@@ -28,10 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(Long id) throws ResourceNotFoundException {
-        Optional<User> user = userRepository.findById(id);
-        return UserMapper.INSTANCE.userToDTO(
-                user.orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id))
-        );
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id));
+        return UserMapper.INSTANCE.userToDTO(user);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO saveUser(UserRequest userRequest) throws ResourceNotFoundException {
         User user = UserMapper.INSTANCE.userRequestToUser(userRequest);
-        for(Long roleId: userRequest.getRoleIds()) {
+        for (Long roleId : userRequest.getRoleIds()) {
             Role role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("Role not found"));
             user.addRole(role);
         }

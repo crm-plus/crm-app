@@ -8,21 +8,17 @@ import com.main.server.entity.Role;
 import com.main.server.entity.Sex;
 import com.main.server.entity.User;
 import com.main.server.exception.ResourceNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.mockito.Spy;
-import org.opentest4j.TestAbortedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
 
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 class UserServiceImplTest extends AbstractSpringBootTests {
@@ -43,7 +39,9 @@ class UserServiceImplTest extends AbstractSpringBootTests {
         user.setLastName("testLastName");
         user.setEmail("test@test.com");
         user.setPassword("test1234");
+        user.setBirthDate(new Date());
         user.setResidentialAddress("testAdresss");
+        user.setDeleted(false);
         user.setSex(Sex.FEMALE);
         adminRole.setId(1L);
         adminRole.setName("ROLE_ADMIN");
@@ -51,19 +49,35 @@ class UserServiceImplTest extends AbstractSpringBootTests {
         userRole.setName("ROLE_USER");
         user.addRole(adminRole);
         user.addRole(userRole);
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+        given(userRepository.findById(USER_ID)).willReturn(Optional.of(user));
     }
 
     @Test
     public void shouldGetUserDTOByIdIfUserExist() {
+        UserDTO userDTO;
         try {
-            UserDTO userDTO = userService.getUser(USER_ID);
+            userDTO = userService.getUser(USER_ID);
         } catch (ResourceNotFoundException e) {
             LOGGER.debug(Objects.isNull(e.getMessage()) ?
                     String.format("Can't get user by id %s",USER_ID) :
-                    String.format("Can't get user by id %s, because: ",USER_ID, e.getMessage()));
+                    String.format("Can't get user by id %s, because %s: ",USER_ID, e.getMessage()));
             throw new TestException(e.getMessage(), e);
         }
+        assertEquals(userDTO.getEmail(), user.getEmail());
+        assertEquals(userDTO.getFirstName(), user.getFirstName());
+        assertEquals(userDTO.getLastName(), user.getLastName());
+        assertEquals(userDTO.getResidentialAddress(), user.getResidentialAddress());
+        assertEquals(userDTO.getBirthDate(), user.getBirthDate());
+        assertEquals(userDTO.isDeleted(), user.isDeleted());
+        assertEquals(userDTO.getSex(), user.getSex());
+        assertNotNull(userDTO.getRoles());
+        assertEquals(userDTO.getRoles().size(), 2);
+        System.out.println(userDTO);
+    }
 
+    @Test
+    public void getUserShouldThrowResourceNotFountExIfUserNotExist() {
+        given(userRepository.findById(USER_ID)).willReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> userService.getUser(USER_ID));
     }
 }
