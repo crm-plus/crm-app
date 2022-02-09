@@ -34,10 +34,10 @@ public class AccountServiceImpl implements AccountService {
     public void processRegister(UserRequest userRequest) throws ResourceNotFoundException {
         User newUser = AccountMapper.INSTANCE.UserRequestToUser(userRequest);
         newUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        for (Long ids : userRequest.getRoleIds()) {
+        for (Long id : userRequest.getRoleIds()) {
             Role role = roleRepository
-                    .findById(ids)
-                    .orElseThrow(() -> new ResourceNotFoundException(ROLE_NOT_FOUND_BY_ID + ids));
+                    .findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException(ROLE_NOT_FOUND_BY_ID + id));
             newUser.addRole(role);
         }
         accountRepository.save(newUser);

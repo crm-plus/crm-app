@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = {"/api/account"})
 @AllArgsConstructor
 public class AccountController {
@@ -16,7 +17,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @RequestMapping("/register")
-    public void registration(UserRequest userRequest) throws ResourceNotFoundException {
+    public void registration(@RequestBody UserRequest userRequest) throws ResourceNotFoundException {
         accountService.processRegister(userRequest);
     }
 
