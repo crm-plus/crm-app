@@ -34,8 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//session for each user doesn't create.
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/account").permitAll()
-                .antMatchers("/api/users").permitAll()
+                .antMatchers("/api/account").permitAll() // TODO add roles
+                .antMatchers("/api/users").permitAll() // TODO add roles
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));
     }

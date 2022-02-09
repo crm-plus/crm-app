@@ -1,6 +1,7 @@
 package com.main.server.service.interfaces;
 
 import com.main.server.dto.UserDTO;
+import com.main.server.dto.UserRequest;
 import com.main.server.exception.ResourceNotFoundException;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface UserService {
 
     List<UserDTO>  getAllUsers();
 
-    UserDTO saveUser(UserDTO user);
+    UserDTO saveUser(UserRequest user) throws ResourceNotFoundException;
 
     UserDTO updateUser(Long id, UserDTO user);
 
