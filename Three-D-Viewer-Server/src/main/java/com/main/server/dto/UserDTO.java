@@ -15,9 +15,9 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private Date birthDate;
     private String residentialAddress;
+    private boolean isDeleted;
     private Sex sex;
     private Set<RoleDTO> roles;
 }

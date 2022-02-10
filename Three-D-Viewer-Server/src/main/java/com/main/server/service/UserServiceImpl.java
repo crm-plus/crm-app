@@ -4,18 +4,16 @@ import com.main.server.dto.UserDTO;
 import com.main.server.dto.UserRequest;
 import com.main.server.entity.Role;
 import com.main.server.entity.User;
+import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.mapper.UserMapper;
 import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
 import com.main.server.service.interfaces.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(Long id) throws ResourceNotFoundException {
-        Optional<User> user = userRepository.findById(id);
-        return UserMapper.INSTANCE.userToDTO(
-                user.orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id))
-        );
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id));
+        return UserMapper.INSTANCE.userToDTO(user);
     }
 
     @Override
@@ -42,24 +39,62 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO saveUser(UserRequest userRequest) throws ResourceNotFoundException {
+    public UserDTO saveUser(UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+        User existedUser = userRepository.findByEmail(userRequest.getEmail()).orElse(null);
+        if (existedUser != null) {
+            throw new ResourceAlreadyExistException(
+                    String.format("User with email %s already exist", userRequest.getEmail())
+            );
+        }
         User user = UserMapper.INSTANCE.userRequestToUser(userRequest);
-        for(Long roleId: userRequest.getRoleIds()) {
-            Role role = roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+        for (Long roleId : userRequest.getRoleIds()) {
+            Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
             user.addRole(role);
         }
         return UserMapper.INSTANCE.userToDTO(userRepository.save(user));
     }
 
     @Override
-    public UserDTO updateUser(Long id, UserDTO userData) {
-        User user = UserMapper.INSTANCE.dtoToUser(userData);
-        user.setId(id);
+    public UserDTO updateUser(Long id, UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(String.format("User by id %s does not exist", id))
+                );
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
+        if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
+            throw new ResourceAlreadyExistException(
+                    String.format("User with email %s already exist", userRequest.getEmail())
+            );
+        }
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(userRequest.getPassword());
+        user.setBirthDate(userRequest.getBirthDate());
+        user.setResidentialAddress(userRequest.getResidentialAddress());
+        user.setSex(userRequest.getSex());
+        user.clearRoles();
+        for (Long roleId : userRequest.getRoleIds()) {
+            Role role = roleRepository
+                    .findById(roleId)
+                    .orElseThrow(
+                            () -> new ResourceNotFoundException("Role not found")
+                    );
+            user.addRole(role);
+        }
         return UserMapper.INSTANCE.userToDTO(userRepository.save(user));
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(Long id) throws ResourceNotFoundException {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                String.format("User with id %s does not exist", id)
+                        )
+                );
+        user.setDeleted(true);
     }
 }
