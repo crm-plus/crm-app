@@ -1,6 +1,6 @@
 package com.main.server.service;
 
-import com.main.server.dto.UserDTO;
+import com.main.server.dto.UserDto;
 import com.main.server.dto.UserRequest;
 import com.main.server.entity.Role;
 import com.main.server.entity.User;
@@ -25,21 +25,21 @@ public class UserServiceImpl implements UserService {
     private static final String USER_NOT_FOUND_BY_ID = "User not found by id: ";
 
     @Override
-    public UserDTO getUser(Long id) throws ResourceNotFoundException {
+    public UserDto getUser(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id));
         return UserMapper.INSTANCE.userToDTO(user);
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userRepository.getAll().stream()
                 .map(UserMapper.INSTANCE::userToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserDTO saveUser(UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public UserDto saveUser(UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
         User existedUser = userRepository.findByEmail(userRequest.getEmail()).orElse(null);
         if (existedUser != null) {
             throw new ResourceAlreadyExistException(
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUser(Long id, UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public UserDto updateUser(Long id, UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(

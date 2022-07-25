@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserDto {
     private String firstName;
     private String lastName;
     private String email;
@@ -19,5 +19,5 @@ public class UserDTO {
     private String residentialAddress;
     private boolean isDeleted;
     private Sex sex;
-    private Set<RoleDTO> roles;
+    private Set<RoleDto> roles;
 }

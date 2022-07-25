@@ -23,7 +23,6 @@ public class AccountServiceImpl implements AccountService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
     private static final String ROLE_NOT_FOUND_BY_ID = "Role not found by id: ";
 
     @Override

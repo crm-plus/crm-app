@@ -1,6 +1,6 @@
 package com.main.server.mapper;
 
-import com.main.server.dto.RoleDTO;
+import com.main.server.dto.RoleDto;
 import com.main.server.entity.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface RoleMapper {
     RoleMapper INSTANCE = Mappers.getMapper(RoleMapper.class);
 
-    RoleDTO roleToDTO(Role role);
+    RoleDto roleToDTO(Role role);
 
-    Role roleToUser(RoleDTO roleDTO);
+    Role roleToUser(RoleDto roleDTO);
 }
