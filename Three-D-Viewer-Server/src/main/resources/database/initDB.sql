@@ -1,7 +1,6 @@
-/* Users table */
 create table if not exists users
 (
-    id                            bigserial not null
+    id                  bigserial not null
         constraint users_pk
             primary key,
     first_name          varchar   not null,
@@ -9,7 +8,9 @@ create table if not exists users
     email               varchar   not null,
     password            varchar   not null,
     residential_address varchar,
-    sex                 varchar
+    sex                 varchar,
+    birth_date          date,
+    deleted             boolean default false
 );
 
 alter table users
@@ -36,17 +37,13 @@ create unique index if not exists roles_name_uindex
 /* Users Roles table */
 create table if not exists users_roles
 (
-    users_roles_id bigserial not null
-        constraint users_roles_pk
-            primary key
-        constraint roles_id___fk
+    user_id bigserial not null
+        constraint user_id_fk
+            references users,
+    role_id bigserial not null
+        constraint role_id_fk
             references roles
-        constraint users_id___fk
-            references users
 );
 
 alter table users_roles
     owner to postgres;
-
-create unique index if not exists users_roles_id_uindex
-    on users_roles (users_roles_id);

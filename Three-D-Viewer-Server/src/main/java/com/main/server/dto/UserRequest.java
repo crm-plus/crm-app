@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,8 +16,8 @@ public class UserRequest {
     private String lastName;
     private String email;
     private String password;
-    private int birthDate;
+    private Date birthDate;
     private String residentialAddress;
     private Sex sex;
-    private List<Long> roleIds;
+    private long[] roleIds;
 }
