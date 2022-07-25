@@ -7,14 +7,10 @@ import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.mapper.AccountMapper;
 import com.main.server.repository.AccountRepository;
 import com.main.server.repository.RoleRepository;
-import com.main.server.security.JwtTokenProvider;
 import com.main.server.service.interfaces.AccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,15 +39,5 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(newUser);
 
         log.info("IN processRegister - user: {} successfully registered", newUser);
-    }
-
-    @Override
-    public String signIn(String email, String password) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            return jwtTokenProvider.createToken(email, accountRepository.findByEmail(email).getRoles());
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username or password");
-        }
     }
 }
