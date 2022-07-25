@@ -6,6 +6,4 @@ import com.main.server.exception.ResourceNotFoundException;
 public interface AccountService {
 
     void processRegister(UserRequest userRequest) throws ResourceNotFoundException;
-
-    String signIn(String email, String password);
 }
