@@ -13,9 +13,6 @@ create table if not exists users
     deleted             boolean default false
 );
 
-alter table users
-    owner to postgres;
-
 create unique index if not exists users_email_uindex
     on users (email);
 
@@ -44,6 +41,3 @@ create table if not exists users_roles
         constraint role_id_fk
             references roles
 );
-
-alter table users_roles
-    owner to postgres;
