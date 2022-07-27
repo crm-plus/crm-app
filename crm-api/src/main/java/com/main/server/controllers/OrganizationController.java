@@ -16,22 +16,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = {"/api/organization"})
+@RequestMapping(path = {"/api/organizations"})
 @AllArgsConstructor
 public class OrganizationController {
 
     private OrganizationService organizationService;
 
     @PostMapping(path = "/")
-    public ResponseEntity<Organization> save(@RequestBody OrganizationDto organizationRequest) throws ResourceAlreadyExistException {
-        return new ResponseEntity<>(organizationService.save(organizationRequest), HttpStatus.OK);
+    public ResponseEntity<Organization> save(@RequestBody OrganizationDto organization) throws ResourceAlreadyExistException {
+        return new ResponseEntity<>(organizationService.save(organization), HttpStatus.OK);
     }
 
     @GetMapping(path = "/organizations")
@@ -45,7 +44,7 @@ public class OrganizationController {
     }
 
     @DeleteMapping(path = "/organizations/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        organizationService.delete(id);
+    public ResponseEntity<Organization> delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        return new ResponseEntity<>(organizationService.delete(id), HttpStatus.OK);
     }
 }

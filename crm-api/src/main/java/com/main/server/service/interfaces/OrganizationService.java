@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface OrganizationService {
 
-    Organization save(OrganizationDto organizationRequest) throws ResourceAlreadyExistException;
+    Organization save(OrganizationDto organization) throws ResourceAlreadyExistException;
 
     List<Organization> getAll();
 
     Organization findById(Long id) throws ResourceNotFoundException;
 
-    void delete(Long id);
+    Organization delete(Long id) throws ResourceNotFoundException;
 }
