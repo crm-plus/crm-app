@@ -1,7 +1,6 @@
 package com.main.server.mapper;
 
-import com.main.server.dto.OrganizationDto;
-import com.main.server.entity.Organization;
+import com.main.server.model.Organization;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

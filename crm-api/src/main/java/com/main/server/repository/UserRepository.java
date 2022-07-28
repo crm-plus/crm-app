@@ -1,6 +1,6 @@
 package com.main.server.repository;
 
-import com.main.server.entity.User;
+import com.main.server.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

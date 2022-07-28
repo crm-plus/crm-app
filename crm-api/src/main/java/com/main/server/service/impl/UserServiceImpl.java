@@ -1,19 +1,16 @@
-package com.main.server.service;
+package com.main.server.service.impl;
 
-import com.main.server.dto.UserDto;
-import com.main.server.dto.UserRequest;
-import com.main.server.entity.Role;
-import com.main.server.entity.User;
+import com.main.server.model.Role;
+import com.main.server.model.User;
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.mapper.UserMapper;
 import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
-import com.main.server.service.interfaces.UserService;
+import com.main.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service

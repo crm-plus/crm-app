@@ -1,6 +1,6 @@
 package com.main.server.repository;
 
-import com.main.server.entity.Organization;
+import com.main.server.model.Organization;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface OrganizationRepository extends CrudRepository<Organization, Long> {
     Optional<Organization> findByName(String name);
 
-    List<Organization> findAll();
+    List<Organization> findAllByDeletedByFalse();
 }

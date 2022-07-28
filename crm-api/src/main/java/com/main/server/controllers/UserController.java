@@ -1,10 +1,8 @@
 package com.main.server.controllers;
 
-import com.main.server.dto.UserDto;
-import com.main.server.dto.UserRequest;
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
-import com.main.server.service.interfaces.UserService;
+import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -35,6 +35,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 }
 
 tasks.named('test') {

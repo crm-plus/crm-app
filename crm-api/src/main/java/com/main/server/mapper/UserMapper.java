@@ -1,8 +1,6 @@
 package com.main.server.mapper;
 
-import com.main.server.dto.UserDto;
-import com.main.server.dto.UserRequest;
-import com.main.server.entity.User;
+import com.main.server.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -1,13 +1,12 @@
-package com.main.server.service;
+package com.main.server.service.impl;
 
-import com.main.server.dto.UserRequest;
-import com.main.server.entity.Role;
-import com.main.server.entity.User;
+import com.main.server.model.Role;
+import com.main.server.model.User;
 import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.mapper.AccountMapper;
 import com.main.server.repository.AccountRepository;
 import com.main.server.repository.RoleRepository;
-import com.main.server.service.interfaces.AccountService;
+import com.main.server.service.AccountService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

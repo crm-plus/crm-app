@@ -1,6 +1,5 @@
-package com.main.server.service.interfaces;
+package com.main.server.service;
 
-import com.main.server.dto.UserRequest;
 import com.main.server.exception.ResourceNotFoundException;
 
 public interface AccountService {
