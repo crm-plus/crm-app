@@ -27,7 +27,7 @@ public class Organization extends BaseEntity {
 
     @NotBlank
     @JsonProperty("name")
-    @Column(name = "name", nullable = false, length = 16)
+    @Column(name = "name", unique = true, nullable = false, length = 16)
     private String name;
 
     @JsonProperty("description")
