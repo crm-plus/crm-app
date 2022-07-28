@@ -4,7 +4,6 @@ import com.example.mainserver.AbstractSpringBootTests;
 import com.example.mainserver.util.TestException;
 import com.main.server.controllers.UserController;
 import com.main.server.model.Role;
-import com.main.server.model.Sex;
 import com.main.server.model.User;
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
