@@ -1,8 +1,7 @@
 package com.main.server.controllers;
 
-import com.main.server.dto.UserRequest;
 import com.main.server.exception.ResourceNotFoundException;
-import com.main.server.service.interfaces.AccountService;
+import com.main.server.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

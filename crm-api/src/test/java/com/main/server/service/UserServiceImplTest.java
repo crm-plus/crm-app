@@ -3,11 +3,8 @@ package com.main.server.service;
 import com.example.mainserver.AbstractSpringBootTests;
 import com.example.mainserver.util.TestException;
 import com.main.server.controllers.UserController;
-import com.main.server.dto.UserDTO;
-import com.main.server.dto.UserRequest;
-import com.main.server.entity.Role;
-import com.main.server.entity.Sex;
-import com.main.server.entity.User;
+import com.main.server.model.Role;
+import com.main.server.model.User;
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,7 +99,7 @@ class UserServiceImplTest extends AbstractSpringBootTests {
 
     @Test
     public void shouldGetUserDTOByIdIfUserExist() {
-        UserDTO userDTO;
+        UserDto userDTO;
         try {
             userDTO = userService.getUser(USER_ID_1);
         } catch (ResourceNotFoundException e) {
@@ -130,7 +127,7 @@ class UserServiceImplTest extends AbstractSpringBootTests {
 
     @Test
     public void shouldGetAllUsers() {
-        List<UserDTO> userDTOS = userService.getAllUsers();
+        List<UserDto> userDTOS = userService.getAllUsers();
         assertNotNull(userDTOS);
         assertEquals(2, userDTOS.size());
     }
@@ -140,8 +137,8 @@ class UserServiceImplTest extends AbstractSpringBootTests {
             userService.saveUser(userRequest);
         } catch (ResourceNotFoundException | ResourceAlreadyExistException e) {
             LOGGER.debug(Objects.isNull(e.getMessage()) ?
-                    String.format("Can't save user %s", userRequest.toString()) :
-                    String.format("Can't save user %s, because %s: ", userRequest.toString(), e.getMessage()));
+                    String.format("Can't save user %s", userRequest) :
+                    String.format("Can't save user %s, because %s: ", userRequest, e.getMessage()));
             throw new TestException(e.getMessage(), e);
         }
     }
@@ -183,8 +180,8 @@ class UserServiceImplTest extends AbstractSpringBootTests {
             userService.updateUser(USER_ID_1, userRequest);
         } catch (ResourceNotFoundException | ResourceAlreadyExistException e) {
             LOGGER.debug(Objects.isNull(e.getMessage()) ?
-                    String.format("Can't update user %s", userRequest.toString()) :
-                    String.format("Can't update user %s, because %s: ", userRequest.toString(), e.getMessage()));
+                    String.format("Can't update user %s", userRequest) :
+                    String.format("Can't update user %s, because %s: ", userRequest, e.getMessage()));
             throw new TestException(e.getMessage(), e);
         }
     }
@@ -296,8 +293,8 @@ class UserServiceImplTest extends AbstractSpringBootTests {
             userService.deleteUser(USER_ID_1);
         } catch (ResourceNotFoundException e) {
             LOGGER.debug(Objects.isNull(e.getMessage()) ?
-                    String.format("Can't update user %s", userRequest.toString()) :
-                    String.format("Can't update user %s, because %s: ", userRequest.toString(), e.getMessage()));
+                    String.format("Can't update user %s", userRequest) :
+                    String.format("Can't update user %s, because %s: ", userRequest, e.getMessage()));
             throw new TestException(e.getMessage(), e);
         }
     }

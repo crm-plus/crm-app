@@ -1,0 +1,71 @@
+package com.main.server.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(fluent = true)
+public class Organization extends BaseEntity {
+
+    @NotBlank
+    @JsonProperty("name")
+    @Column(name = "name", unique = true, nullable = false, length = 16)
+    private String name;
+
+    @JsonProperty("description")
+    @Column(name = "description")
+    private String description;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User createdBy;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User deletedBy;
+
+    @JsonProperty("createdAt")
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt;
+
+    @JsonProperty("updatedAt")
+    @Column(name = "updated_at")
+    private Date updatedAt;
+
+    @NotNull
+    @JsonProperty("isPrivate")
+    @Column(name = "private", nullable = false)
+    private Boolean isPrivate;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "orgranizations_users",
+            joinColumns = {@JoinColumn(name = "organization_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private List<User> members;
+
+    @JsonProperty("createdBy")
+    public Long createdBy() {
+        return createdBy.getId();
+    }
+}

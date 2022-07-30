@@ -2,7 +2,7 @@ package com.example.mainserver;
 
 import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
-import com.main.server.service.UserServiceImpl;
+import com.main.server.service.impl.UserServiceImpl;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
