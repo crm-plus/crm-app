@@ -68,7 +68,7 @@ public class OrganizationController {
     }
 
     @GetMapping(path = "/{name}")
-    public ResponseEntity<Organization> findByName(@PathVariable @NotNull String name) throws ResourceNotFoundException {
+    public ResponseEntity<List<Organization>> findByName(@PathVariable @NotNull String name) {
 
         return ResponseEntity.ok(organizationService.findByName(name));
     }
