@@ -24,14 +24,14 @@ function Header() {
                             className={'logo'}
                             variant='h6'
                             noWrap
-                            color={'secondary'}
+                            color={'primary'}
                             align={'center'}
                         >
                             CRM SYSTEM
                         </Typography>
                     </Grid>
                     <Grid className={'left-nav-items'} item xs={6}>
-                        <Button color='secondary' variant='text'
+                        <Button color='primary' variant='text'
                             id='organization-button'
                             aria-controls={open ? 'organization-menu' : undefined}
                             aria-haspopup='true'
@@ -54,7 +54,7 @@ function Header() {
                             <MenuItem onClick={handleClose}>Org 2</MenuItem>
                             <MenuItem onClick={handleClose}>Org 3</MenuItem>
                         </Menu>
-                        <Button color='secondary' variant='text'
+                        <Button color='primary' variant='text'
                                 id='recent-button'
                                 aria-controls={open ? 'recent-menu' : undefined}
                                 aria-haspopup='true'

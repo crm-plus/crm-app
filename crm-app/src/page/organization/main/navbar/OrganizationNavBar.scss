@@ -1,0 +1,27 @@
+.organization-nav-bar {
+  display: block;
+  box-sizing: border-box;
+
+  .organization-header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding:  0.7rem 0.5rem;
+    border-radius: 0.2rem;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
+    margin-bottom: 3%;
+    height: 9%;
+  }
+
+  .organization-bar {
+    padding:  0.7rem 0.5rem;
+    border-radius: 0.2rem;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.09));
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  height: 100%;
+}
