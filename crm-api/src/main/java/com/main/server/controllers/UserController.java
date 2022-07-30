@@ -2,8 +2,10 @@ package com.main.server.controllers;
 
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
+import com.main.server.model.User;
 import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,26 +27,25 @@ import java.util.List;
 @RequestMapping(path = {"/api/users"})
 @AllArgsConstructor
 public class UserController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     @GetMapping(path = "/")
-    public ResponseEntity<List<UserDto>> getUsers() {
+    public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}/")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<User> getUserById(@PathVariable Long id) throws ResourceNotFoundException {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
-    public ResponseEntity<UserDto> saveUser(@RequestBody UserRequest user) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public ResponseEntity<User> saveUser(@RequestBody User user) throws ResourceNotFoundException, ResourceAlreadyExistException {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}/")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserRequest user) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) throws ResourceNotFoundException, ResourceAlreadyExistException {
         return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
     }
 

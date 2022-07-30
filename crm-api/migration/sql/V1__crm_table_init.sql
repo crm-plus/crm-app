@@ -13,6 +13,24 @@ create table if not exists users
     deleted             boolean default false
 );
 
+create table if not exists oraganization
+(
+    id                  bigserial not null
+        constraint users_pk
+            primary key,
+    name                varchar   not null,
+    created_by          varchar   not null,
+    deleted_by          varchar   not null,
+    created_at          date,
+    updated_at          date,
+    is_private          boolean default false,
+    description         varchar not null,
+    members
+);
+
+alter table users
+    owner to postgres;
+
 create unique index if not exists users_email_uindex
     on users (email);
 
@@ -41,3 +59,6 @@ create table if not exists users_roles
         constraint role_id_fk
             references roles
 );
+
+alter table users_roles
+    owner to postgres;

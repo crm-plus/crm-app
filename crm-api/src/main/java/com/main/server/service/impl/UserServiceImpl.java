@@ -9,12 +9,16 @@ import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
 import com.main.server.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -29,27 +33,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        return userRepository.getAll().stream()
-                .map(UserMapper.INSTANCE::userToDTO)
-                .collect(Collectors.toList());
+    public List<User> getAllUsers() {
+        log.debug("Enter getAllUsers()");
+        return new ArrayList<>(userRepository.getAll());
     }
 
     @Override
-    public UserDto saveUser(UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
-        User existedUser = userRepository.findByEmail(userRequest.getEmail()).orElse(null);
+    public User saveUser(User user) throws ResourceNotFoundException, ResourceAlreadyExistException {
+        User existedUser = userRepository.findByEmail(user.getEmail()).orElse(null);
         if (existedUser != null) {
             throw new ResourceAlreadyExistException(
-                    String.format("User with email %s already exist", userRequest.getEmail())
+                    String.format("User with email %s already exist", user.getEmail())
             );
         }
-        User user = UserMapper.INSTANCE.userRequestToUser(userRequest);
         for (Long roleId : userRequest.getRoleIds()) {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
             user.addRole(role);
         }
-        return UserMapper.INSTANCE.userToDTO(userRepository.save(user));
+        return userRepository.save(user);
     }
 
     @Override
