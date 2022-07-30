@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for crud manipulations with entity {@link} Organization
@@ -31,8 +32,8 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public Organization save(Organization organization) throws ResourceAlreadyExistException {
-        Organization existedOrganization = organizationRepository.findByName(organization.name()).orElse(null);
-        if (existedOrganization != null) {
+        Optional<Organization> existedOrganization = organizationRepository.findByName(organization.name());
+        if (existedOrganization.isPresent()) {
             throw new ResourceAlreadyExistException(
                     String.format("Organization with name %s already exist", organization.name())
             );
@@ -57,7 +58,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @throws ResourceNotFoundException if organization by current id does not exist
      */
     @Override
-    public Organization findById(Long id) throws ResourceNotFoundException {
+    public Organization getById(Long id) throws ResourceNotFoundException {
         return getOrganization(id);
     }
 

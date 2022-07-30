@@ -1,23 +1,21 @@
 package com.main.server.service.impl;
 
-import com.main.server.model.Role;
-import com.main.server.model.User;
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
-import com.main.server.mapper.UserMapper;
+import com.main.server.model.Role;
+import com.main.server.model.User;
 import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
 import com.main.server.service.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
@@ -25,28 +23,44 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private static final String USER_NOT_FOUND_BY_ID = "User not found by id: ";
 
+    /**
+     * Return user by its id
+     *
+     * @throws ResourceNotFoundException if such user in not exists
+     */
     @Override
-    public UserDto getUser(Long id) throws ResourceNotFoundException {
-        User user = userRepository.findById(id)
+    public User getUser(Long id) throws ResourceNotFoundException {
+        log.info("Enter getUser() id: {}", id);
+        return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id));
-        return UserMapper.INSTANCE.userToDTO(user);
     }
 
+    /**
+     * Return all user that exists in db
+     */
     @Override
     public List<User> getAllUsers() {
-        log.debug("Enter getAllUsers()");
+        log.info("Enter getAllUsers()");
         return new ArrayList<>(userRepository.getAll());
     }
 
+    /**
+     * Save user
+     *
+     * @return saved user
+     * @throws ResourceNotFoundException     if user by current id does not exist
+     * @throws ResourceAlreadyExistException if user with the same email already exist
+     */
     @Override
     public User saveUser(User user) throws ResourceNotFoundException, ResourceAlreadyExistException {
-        User existedUser = userRepository.findByEmail(user.getEmail()).orElse(null);
+        log.info("Enter saveUser() user: {}", user);
+        User existedUser = userRepository.findByEmail(user.email()).orElse(null);
         if (existedUser != null) {
             throw new ResourceAlreadyExistException(
-                    String.format("User with email %s already exist", user.getEmail())
+                    String.format("User with email %s already exist", user.email())
             );
         }
-        for (Long roleId : userRequest.getRoleIds()) {
+        for (Long roleId : user.roleIds()) {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
             user.addRole(role);
@@ -54,27 +68,37 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Update user
+     *
+     * @throws ResourceNotFoundException     if user by current id does not exist
+     * @throws ResourceAlreadyExistException if user with the same email already exist
+     */
     @Override
-    public UserDto updateUser(Long id, UserRequest userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public User updateUser(Long id, User userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+        log.info("Enter updateUser() id: {}, userRequest: {}", id, userRequest);
+
         User user = userRepository
                 .findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException(String.format("User by id %s does not exist", id))
                 );
-        user.setFirstName(userRequest.getFirstName());
-        user.setLastName(userRequest.getLastName());
-        if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(userRequest.email()).isPresent()) {
             throw new ResourceAlreadyExistException(
-                    String.format("User with email %s already exist", userRequest.getEmail())
+                    String.format("User with email %s already exist", userRequest.email())
             );
         }
-        user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
-        user.setBirthDate(userRequest.getBirthDate());
-        user.setResidentialAddress(userRequest.getResidentialAddress());
-        user.setSex(userRequest.getSex());
+
+        user.firstName(userRequest.firstName());
+        user.lastName(userRequest.lastName());
+        user.email(userRequest.email());
+        user.password(userRequest.password());
+        user.birthDate(userRequest.birthDate());
+        user.residentialAddress(userRequest.residentialAddress());
+        user.sex(userRequest.sex());
         user.clearRoles();
-        for (Long roleId : userRequest.getRoleIds()) {
+
+        for (Long roleId : userRequest.roleIds()) {
             Role role = roleRepository
                     .findById(roleId)
                     .orElseThrow(
@@ -82,11 +106,12 @@ public class UserServiceImpl implements UserService {
                     );
             user.addRole(role);
         }
-        return UserMapper.INSTANCE.userToDTO(userRepository.save(user));
+        return userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Long id) throws ResourceNotFoundException {
+        log.info("Enter deleteUser() id: {}", id);
         User user = userRepository
                 .findById(id)
                 .orElseThrow(
@@ -94,6 +119,6 @@ public class UserServiceImpl implements UserService {
                                 String.format("User with id %s does not exist", id)
                         )
                 );
-        user.setDeleted(true);
+        user.isDeleted(true);
     }
 }

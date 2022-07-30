@@ -12,7 +12,7 @@ public interface OrganizationService {
 
     List<Organization> getAll();
 
-    Organization findById(Long id) throws ResourceNotFoundException;
+    Organization getById(Long id) throws ResourceNotFoundException;
 
     Organization delete(Long id) throws ResourceNotFoundException;
 

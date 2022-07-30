@@ -1,6 +1,7 @@
 package com.main.server.controllers;
 
 import com.main.server.exception.ResourceNotFoundException;
+import com.main.server.model.User;
 import com.main.server.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @RequestMapping("/register")
-    public void registration(@RequestBody UserRequest userRequest) throws ResourceNotFoundException {
+    public void registration(@RequestBody User userRequest) throws ResourceNotFoundException {
         accountService.processRegister(userRequest);
     }
 }
