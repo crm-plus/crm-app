@@ -12,4 +12,6 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     Optional<Organization> findByName(String name);
 
     List<Organization> findAllByDeletedByFalse();
+
+    List<Organization> findAllByNameLikeAndDeletedByNullAndIsPrivateFalse(String name);
 }

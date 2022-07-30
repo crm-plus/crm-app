@@ -17,4 +17,6 @@ public interface OrganizationService {
     Organization delete(Long id) throws ResourceNotFoundException;
 
     Organization update(Long id, Organization organization) throws ResourceNotFoundException, ResourceAlreadyExistException;
+
+    List<Organization> findByName(String name);
 }

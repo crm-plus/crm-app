@@ -100,6 +100,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
+     * Find organization by name that is not private and not deleted
+     */
+    @Override
+    public List<Organization> findByName(String name)  {
+        return organizationRepository
+                .findAllByNameLikeAndDeletedByNullAndIsPrivateFalse(name);
+    }
+
+    /**
      * Returns organization by id
      */
     private Organization getOrganization(Long id) throws ResourceNotFoundException {
