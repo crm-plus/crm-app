@@ -99,6 +99,21 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
+     * Find organization by name that is not private and not deleted
+     *
+     * @throws ResourceNotFoundException if organization by current id does not exist
+     */
+    @Override
+    public Organization findByName(String name) throws ResourceNotFoundException {
+        return organizationRepository
+                .findByNameAndDeletedByFalseAndIsPrivateFalse(name)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                String.format("Organization with name %s not found", name)
+                        )
+                );
+    }
+
+    /**
      * Returns organization by id
      */
     private Organization getOrganization(Long id) throws ResourceNotFoundException {

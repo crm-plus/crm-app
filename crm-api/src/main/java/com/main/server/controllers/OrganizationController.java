@@ -66,4 +66,10 @@ public class OrganizationController {
 
         return new ResponseEntity<>(organizationService.delete(id), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/{name}")
+    public ResponseEntity<Organization> findByName(@PathVariable @NotNull String name) throws ResourceNotFoundException {
+
+        return ResponseEntity.ok(organizationService.findByName(name));
+    }
 }
