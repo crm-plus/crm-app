@@ -22,9 +22,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Validated
 @RestController
 @CrossOrigin
-@Validated
 @RequestMapping(path = {"/api/organizations"})
 public class OrganizationController {
 
@@ -58,7 +58,7 @@ public class OrganizationController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Organization> findById(@PathVariable @NotNull Long id) throws ResourceNotFoundException {
 
-        return new ResponseEntity<>(organizationService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(organizationService.getById(id), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
