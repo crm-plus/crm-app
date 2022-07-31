@@ -1,64 +1,89 @@
-create table if not exists users
+CREATE TABLE IF NOT EXISTS credentials
 (
-    id                  bigserial not null
-        constraint users_pk
-            primary key,
-    first_name          varchar   not null,
-    last_name           varchar   not null,
-    email               varchar   not null,
-    password            varchar   not null,
-    residential_address varchar,
-    sex                 varchar,
-    birth_date          date,
-    deleted             boolean default false
+    id       BIGINT GENERATED ALWAYS AS IDENTITY,
+    email    VARCHAR UNIQUE NOT NULL,
+    password VARCHAR        NOT NULL,
+    PRIMARY KEY (id)
 );
 
-create table if not exists oraganization
+CREATE TABLE IF NOT EXISTS users
 (
-    id                  bigserial not null
-        constraint users_pk
-            primary key,
-    name                varchar   not null,
-    created_by          varchar   not null,
-    deleted_by          varchar   not null,
-    created_at          date,
-    updated_at          date,
-    is_private          boolean default false,
-    description         varchar not null,
-    members
+    id                  BIGINT GENERATED ALWAYS AS IDENTITY,
+    first_name          VARCHAR,
+    last_name           VARCHAR,
+    credential_id       INT,
+    birth_date          DATE,
+    residential_address VARCHAR,
+    isDeleted           BOOLEAN,
+    sex                 VARCHAR,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_credential
+        FOREIGN KEY (credential_id)
+            REFERENCES credentials (id)
 );
 
-alter table users
-    owner to postgres;
-
-create unique index if not exists users_email_uindex
-    on users (email);
-
-create unique index if not exists users_id_uindex
-    on users (id);
-
-/* Roles table */
-create table if not exists roles
+CREATE TABLE IF NOT EXISTS roles
 (
-    id bigserial not null
-        constraint roles_pk
-            primary key,
-    name VARCHAR not null
+    id   BIGINT GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR UNIQUE NOT NULL,
+
+    PRIMARY KEY (id)
 );
 
-create unique index if not exists roles_name_uindex
-    on roles (name);
-
-/* Users Roles table */
-create table if not exists users_roles
+CREATE TABLE IF NOT EXISTS users_roles
 (
-    user_id bigserial not null
-        constraint user_id_fk
-            references users,
-    role_id bigserial not null
-        constraint role_id_fk
-            references roles
+    id      BIGINT GENERATED ALWAYS AS IDENTITY,
+    user_id BIGINT,
+    role_id BIGINT,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_user_id
+        FOREIGN KEY (user_id)
+            REFERENCES users (id),
+
+    CONSTRAINT fk_role_id
+        FOREIGN KEY (role_id)
+            REFERENCES roles (id)
 );
 
-alter table users_roles
-    owner to postgres;
+CREATE TABLE IF NOT EXISTS organizations
+(
+    id          BIGINT GENERATED ALWAYS AS IDENTITY,
+    name        VARCHAR(16) UNIQUE    NOT NULL,
+    description VARCHAR,
+    created_by  BIGINT                NOT NULL,
+    deleted_by  BIGINT,
+    created_at  DATE,
+    updated_at  DATE,
+    private     BOOLEAN DEFAULT FALSE NOT NULL,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_created_by
+        FOREIGN KEY (created_by)
+            REFERENCES users (id),
+
+    CONSTRAINT fk_deleted_by
+        FOREIGN KEY (deleted_by)
+            REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS organizations_users
+(
+    id      BIGINT GENERATED ALWAYS AS IDENTITY,
+    organizations_id BIGINT,
+    users_id BIGINT,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_organizations_id
+        FOREIGN KEY (organizations_id)
+            REFERENCES organizations (id),
+
+    CONSTRAINT fk_users_id
+        FOREIGN KEY (users_id)
+            REFERENCES users (id)
+);
