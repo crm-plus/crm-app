@@ -6,18 +6,28 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Entity(name = "users")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(fluent = true)
+@Table(name = "users")
 public class User extends BaseEntity {
 
     @JsonProperty("firstName")
@@ -28,14 +38,9 @@ public class User extends BaseEntity {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
 
-    //todo - @Pattern("")
-    @JsonProperty("email")
-    @Column(name = "email", nullable = false, unique = true, length = 45)
-    private String email;
-
-    @JsonProperty("password")
-    @Column(name = "password", nullable = false, length = 64)
-    private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "credential_id", referencedColumnName = "id")
+    private Credential credential;
 
     @JsonProperty("birthDate")
     @Column(name = "birth_date")
@@ -67,11 +72,6 @@ public class User extends BaseEntity {
     @JsonProperty("roleIds")
     @Transient
     private List<Long> roleIds;
-
-    /*@JsonProperty("roles")
-    public List<Role> getRoleNames() {
-        return roles.stream().peek(role -> role.setUsers(null)).collect(Collectors.toList());
-    }*/
 
     public void addRole(Role role) {
         if(roles == null) {

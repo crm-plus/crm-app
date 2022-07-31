@@ -2,23 +2,30 @@ package com.main.server.service.impl;
 
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
+import com.main.server.model.Credential;
 import com.main.server.model.Role;
+import com.main.server.model.RoleTypes;
 import com.main.server.model.User;
+import com.main.server.repository.CredentialRepository;
 import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
 import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+    private final CredentialRepository credentialRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private static final String USER_NOT_FOUND_BY_ID = "User not found by id: ";
@@ -54,12 +61,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) throws ResourceNotFoundException, ResourceAlreadyExistException {
         log.info("Enter saveUser() user: {}", user);
-        User existedUser = userRepository.findByEmail(user.email()).orElse(null);
-        if (existedUser != null) {
-            throw new ResourceAlreadyExistException(
-                    String.format("User with email %s already exist", user.email())
-            );
-        }
+
+        checkIfEmailExist(user.credential().email());
+
         for (Long roleId : user.roleIds()) {
             Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
@@ -83,16 +87,13 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(
                         () -> new ResourceNotFoundException(String.format("User by id %s does not exist", id))
                 );
-        if (userRepository.findByEmail(userRequest.email()).isPresent()) {
-            throw new ResourceAlreadyExistException(
-                    String.format("User with email %s already exist", userRequest.email())
-            );
-        }
+
+        checkIfEmailExist(user.credential().email());
 
         user.firstName(userRequest.firstName());
         user.lastName(userRequest.lastName());
-        user.email(userRequest.email());
-        user.password(userRequest.password());
+        user.credential().email(userRequest.credential().email());
+        user.credential().password(userRequest.credential().password());
         user.birthDate(userRequest.birthDate());
         user.residentialAddress(userRequest.residentialAddress());
         user.sex(userRequest.sex());
@@ -120,5 +121,46 @@ public class UserServiceImpl implements UserService {
                         )
                 );
         user.isDeleted(true);
+    }
+
+    @Override
+    public void register(Credential credential) throws ResourceAlreadyExistException, ResourceNotFoundException {
+        checkIfEmailExist(credential.email());
+
+        String encodedPassword = encodePassword(credential.password());
+
+        credential.password(encodedPassword);
+
+        User user = new User();
+
+        user.credential(credential);
+
+        Role userRole = getRoleByName(RoleTypes.USER.name());
+        user.addRole(userRole);
+
+        credentialRepository.save(credential);
+        userRepository.save(user);
+    }
+
+    private void checkIfEmailExist(String email) throws ResourceAlreadyExistException {
+        Optional<Credential> credential = credentialRepository.findByEmail(email);
+        if (credential.isPresent()) {
+            throw new ResourceAlreadyExistException(
+                    String.format("User with the same email {%s} already exist", email)
+            );
+        }
+    }
+
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    private Role getRoleByName(String roleName) throws ResourceNotFoundException {
+        return roleRepository
+                .findByName(RoleTypes.USER.name())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                                String.format("Role with name {%s} does not exist", roleName)
+                        )
+                );
     }
 }
