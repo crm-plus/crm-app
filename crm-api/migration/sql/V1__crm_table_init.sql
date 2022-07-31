@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users
     id                  BIGINT GENERATED ALWAYS AS IDENTITY,
     first_name          VARCHAR,
     last_name           VARCHAR,
-    credential_id       INT,
+    credential_id       BIGINT,
     birth_date          DATE,
     residential_address VARCHAR,
     isDeleted           BOOLEAN,
