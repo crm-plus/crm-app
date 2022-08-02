@@ -31,11 +31,11 @@ import java.util.Set;
 public class User extends BaseEntity {
 
     @JsonProperty("firstName")
-    @Column(name = "first_name", nullable = false, length = 20)
+    @Column(name = "first_name")
     private String firstName;
 
     @JsonProperty("lastName")
-    @Column(name = "last_name", nullable = false, length = 20)
+    @Column(name = "last_name")
     private String lastName;
 
     @OneToOne(cascade = CascadeType.ALL)

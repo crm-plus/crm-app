@@ -14,6 +14,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("FROM users")
     Set<User> getAll();
 
-    Optional<User> findByEmail(String email);
-
 }

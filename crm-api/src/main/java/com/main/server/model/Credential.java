@@ -1,5 +1,6 @@
 package com.main.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,7 @@ public class Credential extends BaseEntity {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @JsonProperty("password")
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 }
