@@ -20,5 +20,4 @@ public interface UserService {
     User updateUser(Long id, User user) throws ResourceNotFoundException, ResourceAlreadyExistException;
 
     void deleteUser(Long id) throws ResourceNotFoundException;
-
 }

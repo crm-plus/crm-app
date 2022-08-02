@@ -9,12 +9,9 @@ import com.main.server.model.User;
 import com.main.server.repository.CredentialRepository;
 import com.main.server.repository.RoleRepository;
 import com.main.server.repository.UserRepository;
-import com.main.server.security.SecurityUser;
 import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +22,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final CredentialRepository credentialRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -143,11 +140,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         credentialRepository.save(credential);
         userRepository.save(user);
-    }
-
-    public UserDetails loadUserByUsername(String username) {
-        Credential credential = credentialRepository.findByEmail(username).get();
-        return SecurityUser.fromUser(credential.user());
     }
 
     private void checkIfEmailExist(String email) throws ResourceAlreadyExistException {

@@ -21,5 +21,4 @@ public class Role extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
 }
