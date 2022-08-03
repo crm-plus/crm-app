@@ -1,7 +1,7 @@
 package com.main.server.security;
 
 import com.main.server.exception.ResourceNotFoundException;
-import com.main.server.service.UserService;
+import com.main.server.security.exception.JwtAuthenticationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

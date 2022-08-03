@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @throws ResourceNotFoundException if such user in not exists
      */
     @Override
-    public User getUser(Long id) throws ResourceNotFoundException {
+    public User getUser(Long id) {
         log.info("Enter getUser() id: {}", id);
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_BY_ID + id));
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @throws ResourceAlreadyExistException if user with the same email already exist
      */
     @Override
-    public User saveUser(User user) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public User saveUser(User user) {
         log.info("Enter saveUser() user: {}", user);
 
         checkIfEmailExist(user.credential().email());
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      * @throws ResourceAlreadyExistException if user with the same email already exist
      */
     @Override
-    public User updateUser(Long id, User userRequest) throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public User updateUser(Long id, User userRequest) {
         log.info("Enter updateUser() id: {}, userRequest: {}", id, userRequest);
 
         User user = userRepository
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteUser(Long id) throws ResourceNotFoundException {
+    public void deleteUser(Long id) {
         log.info("Enter deleteUser() id: {}", id);
         User user = userRepository
                 .findById(id)
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void register(Credential credential) throws ResourceAlreadyExistException, ResourceNotFoundException {
+    public void register(Credential credential) {
         checkIfEmailExist(credential.email());
 
         String encodedPassword = encodePassword(credential.password());
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return SecurityUser.fromUser(credential.user());
     }
 
-    private void checkIfEmailExist(String email) throws ResourceAlreadyExistException {
+    private void checkIfEmailExist(String email) {
         Optional<Credential> credential = credentialRepository.findByEmail(email);
         if (credential.isPresent()) {
             throw new ResourceAlreadyExistException(
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return passwordEncoder.encode(password);
     }
 
-    private Role getRoleByName(String roleName) throws ResourceNotFoundException {
+    private Role getRoleByName(String roleName) {
         return roleRepository
                 .findByName(RoleTypes.USER.name())
                 .orElseThrow(() -> new ResourceNotFoundException(

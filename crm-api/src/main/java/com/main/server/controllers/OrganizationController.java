@@ -36,15 +36,13 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<Organization> save(@RequestBody @Valid Organization organization)
-            throws ResourceAlreadyExistException {
+    public ResponseEntity<Organization> save(@RequestBody @Valid Organization organization) {
 
         return new ResponseEntity<>(organizationService.save(organization), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Organization> update(@PathVariable @NotNull Long id, @RequestBody @Valid Organization organization)
-            throws ResourceNotFoundException, ResourceAlreadyExistException {
+    public ResponseEntity<Organization> update(@PathVariable @NotNull Long id, @RequestBody @Valid Organization organization) {
 
         return new ResponseEntity<>(organizationService.update(id, organization), HttpStatus.OK);
     }
@@ -56,13 +54,13 @@ public class OrganizationController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Organization> findById(@PathVariable @NotNull Long id) throws ResourceNotFoundException {
+    public ResponseEntity<Organization> findById(@PathVariable @NotNull Long id) {
 
         return new ResponseEntity<>(organizationService.getById(id), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Organization> delete(@PathVariable @NotNull Long id) throws ResourceNotFoundException {
+    public ResponseEntity<Organization> delete(@PathVariable @NotNull Long id) {
 
         return new ResponseEntity<>(organizationService.delete(id), HttpStatus.OK);
     }

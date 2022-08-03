@@ -2,6 +2,7 @@ package com.main.server.controllers;
 
 import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
+import com.main.server.model.Credential;
 import com.main.server.model.User;
 import com.main.server.service.UserService;
 import com.sun.istack.NotNull;
@@ -63,5 +64,11 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable @NotNull Long id) throws ResourceNotFoundException {
         userService.deleteUser(id);
         return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
+    }
+
+
+    @PostMapping("/register")
+    public void register(@RequestBody @Valid Credential credential) {
+        userService.register(credential);
     }
 }
