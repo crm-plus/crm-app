@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -22,16 +22,13 @@ import java.util.Date;
 @Table(name = "refresh_tokens")
 public class RefreshToken extends BaseEntity {
 
-    @JsonProperty("uuid")
-    @Column(name = "uuid", nullable = false, unique = true)
-    private String uuid;
-
-    @JsonIgnore
-    @Column(name = "createdAt", nullable = false)
-    private Date createdAt;
+    @NotNull
+    @JsonProperty("refreshToken")
+    @Column(name = "refresh_token", nullable = false, unique = true)
+    private String refreshToken;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "credential_id", referencedColumnName = "id")
+    private Credential credential;
 }

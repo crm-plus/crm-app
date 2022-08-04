@@ -3,7 +3,9 @@ package com.main.server.repository;
 import com.main.server.model.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RefreshTokenRepository  extends CrudRepository<RefreshToken, Long> {
+import java.util.Optional;
 
-    RefreshToken findByUuid(String uuid);
+public interface RefreshTokenRepository extends CrudRepository<RefreshToken, Long> {
+
+    Optional<RefreshToken> findByUuid(String uuid);
 }

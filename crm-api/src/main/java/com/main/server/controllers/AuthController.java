@@ -2,9 +2,7 @@ package com.main.server.controllers;
 
 import com.main.server.model.Credential;
 import com.main.server.model.RefreshToken;
-import com.main.server.model.User;
 import com.main.server.security.service.AuthenticationService;
-import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +19,13 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/authenticate")
-    public String authenticate(Credential credential) {
+    public String authenticate(@RequestBody @Valid Credential credential) {
         return authenticationService.authenticate(credential);
     }
 
     @GetMapping("/refreshToken")
-    public String refreshToken(RefreshToken refreshToken) {
-        return authenticationService.refreshToken(refreshToken.uuid());
+    public String refreshToken(@RequestBody @Valid RefreshToken refreshToken) {
+        return authenticationService.refreshToken(refreshToken.refreshToken());
     }
 
 }

@@ -30,8 +30,10 @@ public class JwtTokenProvider {
     private String secretKey;
     @Value("${jwt.header}")
     private String authorizationHeader;
-    @Value("${jwt.expiration}")
+    @Value("${jwt.token.expiration}")
     private long validityInMilliseconds;
+    @Value("${jwt.refreshtoken.expiration}")
+    private long refreshTokenValidityInMilliseconds;
 
     public JwtTokenProvider(@Qualifier("userServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -56,6 +58,19 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String createRefreshToken(String username) {
+        Claims claims = Jwts.claims().setSubject(username);
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
@@ -65,7 +80,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public Authentication getAuthentication(String token) throws ResourceNotFoundException {
+    public Authentication getAuthentication(String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
