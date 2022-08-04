@@ -1,5 +1,6 @@
 package com.main.server.configuration;
 
+import com.main.server.security.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/auth/authenticate").permitAll()
+                .antMatchers("/api/auth/refreshToken").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
