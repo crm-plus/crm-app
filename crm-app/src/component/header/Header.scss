@@ -1,12 +1,23 @@
 header {
-  padding: 5px;
-  height: 6vh;
 
-  .logo {
-    margin-top: 5px;
+  .brand {
+    margin-left: 2rem
   }
 
-  .left-nav-items {
-    margin-left: 15px;
+  .left-nav {
+    margin-right: 4rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+
+    .nav-item {
+      display: flex;
+      flex-direction: row;
+      gap: 0.3rem;
+    }
+
+    .nav-item.sign-in {
+      gap: 0.1rem;
+    }
   }
 }

@@ -1,89 +1,60 @@
-import React from 'react'
-import {AppBar, Button, Grid, Menu, MenuItem} from '@mui/material'
-import { Typography } from '@mui/material'
+import React, {FC} from 'react'
+
 import './Header.scss'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import {Nav, Navbar} from "react-bootstrap";
+import DropDown from "../common/dropdown/DropDown";
 
+interface CRMHeaderProps {
+    theme: 'light' | 'dark'
+}
 
-function Header() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-    const open = Boolean(anchorEl)
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget)
-    }
-    const handleClose = () => {
-        setAnchorEl(null)
-    }
+const Header: FC<CRMHeaderProps> = ({
+                                        theme
+                                    }) => {
 
     return (
-        <div>
-            <AppBar position='relative' color='secondary' >
-                <Grid container >
-                    <Grid className={'left-nav-items'} item xs={2} >
-                        <Typography
-                            className={'logo'}
-                            variant='h6'
-                            noWrap
-                            color={'primary'}
-                            align={'center'}
-                        >
-                            CRM SYSTEM
-                        </Typography>
-                    </Grid>
-                    <Grid className={'left-nav-items'} item xs={6}>
-                        <Button color='primary' variant='text'
-                            id='organization-button'
-                            aria-controls={open ? 'organization-menu' : undefined}
-                            aria-haspopup='true'
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                            endIcon={<KeyboardArrowDownIcon/>}
-                        >
-                            Organization
-                        </Button>
-                        <Menu
-                            id='organization-menu'
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'organization-button',
-                            }}
-                        >
-                            <MenuItem onClick={handleClose}>Org 1</MenuItem>
-                            <MenuItem onClick={handleClose}>Org 2</MenuItem>
-                            <MenuItem onClick={handleClose}>Org 3</MenuItem>
-                        </Menu>
-                        <Button color='primary' variant='text'
-                                id='recent-button'
-                                aria-controls={open ? 'recent-menu' : undefined}
-                                aria-haspopup='true'
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}
-                                endIcon={<KeyboardArrowDownIcon/>}
-                        >
-                            RECENT
-                        </Button>
-                        <Menu
-                            id='recent-menu'
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'recent-button',
-                            }}
-                        >
-                            <MenuItem onClick={handleClose}>Org 1</MenuItem>
-                            <MenuItem onClick={handleClose}>Org 2</MenuItem>
-                            <MenuItem onClick={handleClose}>Org 3</MenuItem>
-                        </Menu>
-                    </Grid>
-                </Grid>
+        <header>
+            <Navbar variant={theme} bg={theme}>
+                <div className='brand'>
+                    <Navbar.Brand>CRM+</Navbar.Brand>
+                </div>
 
+                <Navbar/>
 
-            </AppBar>
-        </div>
-    )
+                <Nav className='me-auto'>
+                    <DropDown
+                        items={[{title: 'BMW', url: '/bmw'}]}
+                        theme={theme}
+                        title={'Organization'}
+                    />
+                    <DropDown
+                        items={[{title: 'Audi', url: '/audi'}]}
+                        theme={theme}
+                        title={'Recent'}
+                    />
+                </Nav>
+
+                <Nav className={'left-nav'}>
+                    <Nav.Link href="/signin">
+                        <div className='nav-item sign-in'>
+                            Sign In
+                            <span className="material-symbols-outlined">
+                            login
+                        </span>
+                        </div>
+                    </Nav.Link>
+                    <Nav.Link href="/signup">
+                        <div className='nav-item'>
+                            Sign Up
+                            <span className="material-symbols-outlined">
+                                person_add
+                            </span>
+                        </div>
+                    </Nav.Link>
+
+                </Nav>
+            </Navbar>
+        </header>)
 }
 
 export default Header

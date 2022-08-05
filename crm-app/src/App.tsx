@@ -1,41 +1,23 @@
-import React from 'react'
-import Header from './component/header/Header'
-
-import {ThemeProvider, createTheme} from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import OrganizationMainPage from "./page/organization/main/OrganizationMainPage";
+import React, {useState} from 'react'
 
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import './App.css'
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-    },
-})
-
-const lightTheme = createTheme({
-    palette: {
-        mode: 'light',
-    },
-})
-
-const isDarkMode = true
+import CRMHeader from "./component/header/Header";
 
 function App() {
+
     return (
-        <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-            <CssBaseline/>
-            <BrowserRouter>
-                <div className='app'>
-                    <Header/>
-                    <Routes>
-                        <Route path='organization/:name' element={<OrganizationMainPage/>} />
-                    </Routes>
-                </div>
-            </BrowserRouter>
-        </ThemeProvider>
+        <BrowserRouter>
+            <div className='app'>
+                <CRMHeader theme={'dark'}/>
+
+                <Routes>
+                    {/*<Route path='organization/:name' element={<OrganizationMainPage/>}/>*/}
+                </Routes>
+            </div>
+        </BrowserRouter>
     )
 }
 
