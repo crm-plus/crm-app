@@ -13,11 +13,12 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User saveUser(User user) throws ResourceNotFoundException, ResourceAlreadyExistException;
+    User saveUser(User user);
 
-    void register(Credential credential) throws ResourceAlreadyExistException, ResourceNotFoundException;
+    User updateUser(Long id, User user);
 
-    User updateUser(Long id, User user) throws ResourceNotFoundException, ResourceAlreadyExistException;
+    void deleteUser(Long id);
 
-    void deleteUser(Long id) throws ResourceNotFoundException;
+    void register(Credential credential);
+
 }

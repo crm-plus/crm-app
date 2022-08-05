@@ -12,23 +12,23 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(fluent = true)
-@Table(name = "credentials")
-public class Credential extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "refresh_tokens")
+public class RefreshToken extends BaseEntity {
 
-    @JsonProperty("email")
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
+    @NotNull
+    @JsonProperty("refreshToken")
+    @Column(name = "refresh_token", nullable = false, unique = true)
+    private String refreshToken;
 
     @JsonIgnore
-    @Column(name = "password", nullable = false)
-    private String password;
-
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "credential_id", referencedColumnName = "id")
+    private Credential credential;
 }

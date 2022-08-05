@@ -73,9 +73,9 @@ CREATE TABLE IF NOT EXISTS organizations
 
 CREATE TABLE IF NOT EXISTS organizations_users
 (
-    id      BIGINT GENERATED ALWAYS AS IDENTITY,
+    id               BIGINT GENERATED ALWAYS AS IDENTITY,
     organizations_id BIGINT,
-    users_id BIGINT,
+    users_id         BIGINT,
 
     PRIMARY KEY (id),
 
@@ -87,3 +87,17 @@ CREATE TABLE IF NOT EXISTS organizations_users
         FOREIGN KEY (users_id)
             REFERENCES users (id)
 );
+
+CREATE TABLE IF NOT EXISTS refresh_tokens
+(
+    id           BIGINT GENERATED ALWAYS AS IDENTITY,
+    refreshToken VARCHAR UNIQUE NOT NULL,
+    credential_id      BIGINT,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_credential_id
+        FOREIGN KEY (credential_id)
+            REFERENCES credentials (id)
+
+)
