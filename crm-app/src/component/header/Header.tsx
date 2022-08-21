@@ -1,8 +1,8 @@
 import React, {FC} from 'react'
 
 import './Header.scss'
-import {Nav, Navbar} from "react-bootstrap";
-import DropDown from "../common/dropdown/DropDown";
+import {Nav, Navbar} from 'react-bootstrap';
+import DropDown from '../common/dropdown/DropDown';
 
 interface CRMHeaderProps {
     theme: 'light' | 'dark'
@@ -35,18 +35,18 @@ const Header: FC<CRMHeaderProps> = ({
                 </Nav>
 
                 <Nav className={'left-nav'}>
-                    <Nav.Link href="/signin">
+                    <Nav.Link href='/signin'>
                         <div className='nav-item sign-in'>
                             Sign In
-                            <span className="material-symbols-outlined">
+                            <span className='material-symbols-outlined'>
                             login
                         </span>
                         </div>
                     </Nav.Link>
-                    <Nav.Link href="/signup">
+                    <Nav.Link href='/signup'>
                         <div className='nav-item'>
                             Sign Up
-                            <span className="material-symbols-outlined">
+                            <span className='material-symbols-outlined'>
                                 person_add
                             </span>
                         </div>

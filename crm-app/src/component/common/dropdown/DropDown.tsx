@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {NavDropdown} from "react-bootstrap";
+import {NavDropdown} from 'react-bootstrap';
 
 interface DropDownProps {
     theme: 'dark' | 'light',

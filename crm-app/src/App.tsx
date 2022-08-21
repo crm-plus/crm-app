@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
 import './App.css'
 
-import CRMHeader from "./component/header/Header";
-import RegistrationPage from "./page/registration/RegistrationPage";
-import Page from "./component/common/page/Page";
+import CRMHeader from './component/header/Header';
+import RegistrationPage from './page/registration/RegistrationPage';
+import Page from './component/common/page/Page';
 
 function App() {
 
