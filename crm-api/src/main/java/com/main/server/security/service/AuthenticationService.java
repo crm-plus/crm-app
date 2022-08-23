@@ -1,10 +1,13 @@
 package com.main.server.security.service;
 
 import com.main.server.model.Credential;
+import com.main.server.security.model.AuthResponse;
+
+import java.util.Map;
 
 public interface AuthenticationService {
 
-    String authenticate(Credential credential);
+    AuthResponse authenticate(Credential credential);
 
-    String refreshToken(String refreshTokenUuid);
+    AuthResponse refreshToken(String refreshTokenUuid);
 }

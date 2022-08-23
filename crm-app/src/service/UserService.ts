@@ -5,7 +5,7 @@ import API_URL from "../constant/ApiEndpoint";
 class UserService {
 
     static async register(credentials: Credentials) {
-        return axios.post(`${API_URL}/register`, credentials);
+        return axios.post(`${API_URL}/users/register`, credentials);
     }
 }
 

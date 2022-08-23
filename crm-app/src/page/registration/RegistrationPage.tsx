@@ -1,12 +1,14 @@
-import React, { FC } from 'react';
-import {Button, FloatingLabel, FormControl, FormGroup} from 'react-bootstrap';
+import React, {FC, useState} from 'react';
+import {Button, FloatingLabel, FormControl, FormGroup, Spinner} from 'react-bootstrap';
 import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Feedback from 'react-bootstrap/Feedback';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
+import UserService from "../../service/UserService";
 import Credentials from '../../type/Credentials';
 import CredentialSchema from '../../validation/CredentialSchema'
+import { toast } from 'react-toastify';
 
 import './RegistrationPage.scss'
 
@@ -23,9 +25,24 @@ const RegistrationPage: FC<RegistrationPageProps> = ({}) => {
         resolver: yupResolver(CredentialSchema),
         mode: 'all'
     });
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [error, setError] = useState()
+    const navigate = useNavigate()
 
-    const onSubmit = (data: Credentials) => {
-        console.log(JSON.stringify(data, null, 2));
+    const onSubmit = async (credentials: Credentials) => {
+        console.log(credentials)
+        setIsLoading(true)
+        await UserService.register(credentials)
+            .then(response => {
+                navigate('/signin', {replace: true})
+                toast.success('You have been successfully sign up')
+            })
+            .catch((er) => {
+                if(er.response) {
+                    toast.error(er.response.data.message)
+                }
+            })
+        setIsLoading(false);
     };
 
     return (
@@ -66,8 +83,25 @@ const RegistrationPage: FC<RegistrationPageProps> = ({}) => {
                         </div>
                     </FormGroup>
                     <div className={'footer'}>
-                        <Button className={'submit-button'} type='submit' variant='outline-dark'>Sing Up</Button>
+                        <Button
+                            variant='outline-dark'
+                            className={'submit-button'}
+                            type='submit'
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <Spinner
+                                as="span"
+                                variant='dark'
+                                animation="border"
+                                size='sm'
+                                role="status"
+                                aria-hidden="true"
+                            /> : null}
+                            {isLoading ? ' Loading... ' : ' Sing Up '}
+                        </Button>
                     </div>
+
+
 
                 </form>
             </div>

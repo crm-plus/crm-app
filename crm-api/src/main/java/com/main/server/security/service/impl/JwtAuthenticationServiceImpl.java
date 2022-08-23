@@ -6,6 +6,7 @@ import com.main.server.repository.CredentialRepository;
 import com.main.server.repository.RefreshTokenRepository;
 import com.main.server.security.JwtTokenProvider;
 import com.main.server.security.exception.JwtAuthenticationException;
+import com.main.server.security.model.AuthResponse;
 import com.main.server.security.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -26,9 +28,10 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService {
     private final CredentialRepository credentialRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String authenticate(Credential credential) {
+    public AuthResponse authenticate(Credential credential) {
         // Authenticates user
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -69,14 +72,14 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService {
         }
 
         // Creates authentication response
-        Map<String, Object> authenticationResponse = new HashMap<>();
-        authenticationResponse.put("token", token);
-        authenticationResponse.put("refreshToken", refreshToken);
-        return authenticationResponse.toString();
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.token(token);
+        authResponse.refreshToken(refreshToken);
+        return authResponse;
     }
 
     @Override
-    public String refreshToken(String refreshToken) {
+    public AuthResponse refreshToken(String refreshToken) {
         RefreshToken existedRefreshToken = getRefreshToken(refreshToken);
 
         jwtTokenProvider.validateToken(refreshToken);
@@ -85,7 +88,7 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService {
 
     private RefreshToken getRefreshToken(String refreshToken) {
         return refreshTokenRepository
-                .findByUuid(refreshToken)
+                .findByRefreshToken(refreshToken)
                 .orElseThrow(() -> new ResourceNotFoundException(
                                 String.format("Refresh token with uuid {%s} does not exist", refreshToken)
                         )

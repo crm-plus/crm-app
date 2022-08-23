@@ -35,7 +35,7 @@ public class JwtTokenProvider {
     @Value("${jwt.refreshtoken.expiration}")
     private long refreshTokenValidityInMilliseconds;
 
-    public JwtTokenProvider(@Qualifier("userServiceImpl") UserDetailsService userDetailsService) {
+    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
