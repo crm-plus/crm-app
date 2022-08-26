@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {Button, FloatingLabel, FormControl, FormGroup, Spinner} from 'react-bootstrap';
 import {useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,9 +8,10 @@ import {Link, useNavigate} from 'react-router-dom';
 import AuthService from '../../service/AuthService'
 import Credentials from '../../type/Credentials';
 import CredentialSchema from '../../validation/CredentialSchema'
+import {toast} from 'react-toastify';
+import {Context} from '../../index';
 
 interface LoginPageProps {
-    setIsAuthenticate: (isAuthenticated: true) => void
 }
 
 const LoginPage: FC<LoginPageProps> = ({}) => {
@@ -24,13 +25,15 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
     });
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const navigate = useNavigate()
+    const {auth} = useContext(Context)
 
     const onSubmit = async (credentials: Credentials) => {
-        AuthService.authenticate(credentials)
-            .then(response => {
-                console.log(response)
-            })
-            .catch((er) => console.log(er))
+        setIsLoading(true);
+        auth.login(credentials).then((response) => {
+            toast.success('You have been successfully log in')
+            setIsLoading(false)
+            navigate('/user', {replace: true})
+        })
     };
 
     return (
@@ -75,12 +78,12 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
                         disabled={isLoading}
                     >
                         {isLoading ? <Spinner
-                            as="span"
+                            as='span'
                             variant='dark'
-                            animation="border"
+                            animation='border'
                             size='sm'
-                            role="status"
-                            aria-hidden="true"
+                            role='status'
+                            aria-hidden='true'
                         /> : null}
                         {isLoading ? ' Loading... ' : ' Sing In '}
                     </Button>

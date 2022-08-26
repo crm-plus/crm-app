@@ -61,7 +61,7 @@ public class JwtTokenProvider {
     public String createRefreshToken(String username) {
         Claims claims = Jwts.claims().setSubject(username);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds);
+        Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds * 1000);
 
         return Jwts.builder()
                 .setClaims(claims)

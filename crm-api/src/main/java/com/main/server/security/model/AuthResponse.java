@@ -13,4 +13,6 @@ public class AuthResponse {
     private String token;
     @JsonProperty("refreshToken")
     private String refreshToken;
+    @JsonProperty("userName")
+    private String username;
 }

@@ -1,5 +1,6 @@
 
 export default interface AuthResponse {
     token: string,
-    refreshToken: string
+    refreshToken: string,
+    userName: string
 }

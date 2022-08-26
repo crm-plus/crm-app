@@ -24,7 +24,7 @@ const DropDown: FC<DropDownProps>
                 menuVariant={theme}
             >
                 {items.map((item) => {
-                    return <NavDropdown.Item href={item.url}>{item.title}</NavDropdown.Item>
+                    return <NavDropdown.Item href={item.url} key={item.url}>{item.title}</NavDropdown.Item>
                 })}
             </NavDropdown>
         </div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -10,12 +10,18 @@ import LoginPage from "./page/login/LoginPage";
 
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
+import {Context} from "./index";
+import UserPage from "./page/user/UserPage";
 
 
 function App() {
 
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
-    const [isAuthenticate, setIsAuthenticated] = useState<boolean>(false)
+    const {auth} = useContext(Context);
+
+    useEffect(() => {
+        auth.refresh();
+    }, [])
 
     return (
         <>
@@ -28,7 +34,7 @@ function App() {
                             <Page theme={theme}><RegistrationPage/></Page>}
                         />
                         <Route path='signin' element={
-                            <Page theme={theme}><LoginPage setIsAuthenticate={setIsAuthenticated}/></Page>}
+                            <Page theme={theme}><LoginPage /></Page>}
                         />
                         {/*<Route path='organization/:name' element={<OrganizationMainPage/>}/>*/}
                     </Routes>

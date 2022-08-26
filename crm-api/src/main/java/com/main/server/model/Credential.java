@@ -30,6 +30,7 @@ public class Credential extends BaseEntity {
     private String password;
 
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

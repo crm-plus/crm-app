@@ -28,7 +28,6 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService {
     private final CredentialRepository credentialRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public AuthResponse authenticate(Credential credential) {
@@ -43,13 +42,31 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService {
         } catch (BadCredentialsException e) {
             throw new JwtAuthenticationException("Credential is invalid", HttpStatus.UNAUTHORIZED);
         }
+
+        return generateAuthResponse(credential.email());
+    }
+
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
+        RefreshToken existedRefreshToken = getRefreshToken(refreshToken);
+
+        if(!existedRefreshToken.refreshToken().equals(refreshToken)) {
+            throw new JwtAuthenticationException("Refresh token is invalid");
+        }
+
+        jwtTokenProvider.validateToken(refreshToken);
+
+        return generateAuthResponse(existedRefreshToken.credential().email());
+    }
+
+    private AuthResponse generateAuthResponse(String username) {
         // Creates token and refresh token
-        String token = jwtTokenProvider.createToken(credential.email(), "USER"); // TODO add real role
-        String refreshToken = jwtTokenProvider.createRefreshToken(credential.email());
+        String token = jwtTokenProvider.createToken(username, "USER"); // TODO add real role
+        String refreshToken = jwtTokenProvider.createRefreshToken(username);
 
         // Finds credential
         Credential existedCredential = credentialRepository
-                .findByEmail(credential.email())
+                .findByEmail(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Credential does not exist"));
 
         RefreshToken existedRefreshToken = null;
@@ -75,15 +92,8 @@ public class JwtAuthenticationServiceImpl implements AuthenticationService {
         AuthResponse authResponse = new AuthResponse();
         authResponse.token(token);
         authResponse.refreshToken(refreshToken);
+        authResponse.username(existedCredential.email());
         return authResponse;
-    }
-
-    @Override
-    public AuthResponse refreshToken(String refreshToken) {
-        RefreshToken existedRefreshToken = getRefreshToken(refreshToken);
-
-        jwtTokenProvider.validateToken(refreshToken);
-        return authenticate(existedRefreshToken.credential());
     }
 
     private RefreshToken getRefreshToken(String refreshToken) {

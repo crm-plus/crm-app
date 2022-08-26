@@ -21,6 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -28,8 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/authenticate").permitAll()
                 .antMatchers("/api/auth/refreshToken").permitAll()
                 .antMatchers("/api/users/register").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/api/users/info").hasAuthority("USER")
                 .and()
                 .apply(jwtConfigurer);
     }
