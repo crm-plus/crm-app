@@ -21,14 +21,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/authenticate").permitAll()
                 .antMatchers("/api/auth/refreshToken").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/api/users/register").permitAll()
+                .antMatchers("/api/users/info").hasAuthority("USER")
                 .and()
                 .apply(jwtConfigurer);
     }

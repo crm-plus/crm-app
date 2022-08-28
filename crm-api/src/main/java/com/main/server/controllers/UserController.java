@@ -6,13 +6,11 @@ import com.main.server.model.Credential;
 import com.main.server.model.User;
 import com.main.server.service.UserService;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 
 @Validated
@@ -70,5 +69,14 @@ public class UserController {
     @PostMapping("/register")
     public void register(@RequestBody @Valid Credential credential) {
         userService.register(credential);
+    }
+
+    // TODO Add real functionality
+    @GetMapping("/info")
+    public ResponseEntity<User> getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = new User();
+        user.firstName(authentication.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

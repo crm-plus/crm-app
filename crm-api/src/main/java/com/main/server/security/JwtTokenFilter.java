@@ -1,6 +1,5 @@
 package com.main.server.security;
 
-import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.security.exception.JwtAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +33,8 @@ public class JwtTokenFilter extends GenericFilterBean {
             }
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
-            ((HttpServletResponse) response).sendError(e.getHttpStatus().value());
+            ((HttpServletResponse) response).setStatus(401);
+            response.getOutputStream().write("JWT token is expired or invalid".getBytes());
             throw new JwtAuthenticationException("JWT token is expired or invalid");
         }
         chain.doFilter(request, response);

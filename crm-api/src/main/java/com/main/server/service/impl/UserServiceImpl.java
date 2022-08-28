@@ -14,7 +14,6 @@ import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private final CredentialRepository credentialRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -140,6 +139,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         Role userRole = getRoleByName(RoleTypes.USER.name());
         user.addRole(userRole);
+
+        credential.user(user);
 
         credentialRepository.save(credential);
         userRepository.save(user);

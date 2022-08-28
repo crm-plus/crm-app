@@ -35,7 +35,7 @@ public class JwtTokenProvider {
     @Value("${jwt.refreshtoken.expiration}")
     private long refreshTokenValidityInMilliseconds;
 
-    public JwtTokenProvider(@Qualifier("userServiceImpl") UserDetailsService userDetailsService) {
+    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -61,7 +61,7 @@ public class JwtTokenProvider {
     public String createRefreshToken(String username) {
         Claims claims = Jwts.claims().setSubject(username);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds);
+        Date validity = new Date(now.getTime() + refreshTokenValidityInMilliseconds * 1000);
 
         return Jwts.builder()
                 .setClaims(claims)
