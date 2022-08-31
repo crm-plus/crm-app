@@ -11,8 +11,6 @@ import LoginPage from "./page/login/LoginPage";
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import {Context} from "./index";
-import UserPage from "./page/user/UserPage";
-
 
 function App() {
 
