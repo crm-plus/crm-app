@@ -1,8 +1,11 @@
+.registration-page {
+  height: 100%;
+  padding-top: 40px;
 
   .registration-form {
-    margin: 5rem auto 0;
     padding: 4rem;
     box-sizing: border-box;
+    margin: 0 auto;
     width: 50%;
     max-width: 500px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -33,3 +36,4 @@
     }
 
   }
+}
