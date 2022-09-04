@@ -19,24 +19,15 @@ const Header: FC<CRMHeaderProps> = ({
 
     return (
         <header>
-            <Navbar variant={theme} bg={theme}>
+            <Navbar variant={theme} bg={theme} >
                 <div className='brand'>
-                    <Navbar.Brand>CRM+</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={'/home'}>CRM+</Navbar.Brand>
                 </div>
 
                 <Navbar/>
 
                 <Nav className='me-auto'>
-                    <DropDown
-                        items={[{title: 'BMW', url: '/bmw'}]}
-                        theme={theme}
-                        title={'Organization'}
-                    />
-                    <DropDown
-                        items={[{title: 'Audi', url: '/audi'}]}
-                        theme={theme}
-                        title={'Recent'}
-                    />
+
                 </Nav>
 
                 {!auth.isAuth ?

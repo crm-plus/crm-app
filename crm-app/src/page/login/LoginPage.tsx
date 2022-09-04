@@ -32,67 +32,71 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
         auth.login(credentials).then((response) => {
             toast.success('You have been successfully log in')
             setIsLoading(false)
-            navigate('/user', {replace: true})
+            navigate('/', {replace: true})
         })
     };
 
     return (
-        <div className={'registration-form'}>
-            <form onSubmit={handleSubmit(onSubmit)} >
 
-                <div className={'form-title'}>
-                    <h2>Sign In</h2>
-                </div>
-                <FormGroup className={'registration-input'}>
-                    <FloatingLabel label={'Email address'}>
-                        <FormControl
-                            className={errors.email ? 'is-invalid' : ''}
-                            {...register('email')}
-                            type='text'
-                            placeholder='name@example.com'
-                        />
-                        <Feedback type='invalid'>
-                            {errors.email?.message}
-                        </Feedback>
-                    </FloatingLabel>
-                </FormGroup>
+        <div className={'registration-page'}>
+            <div className={'registration-form'}>
+                <form onSubmit={handleSubmit(onSubmit)} >
 
-                <FormGroup className={'registration-input'}>
-                    <FloatingLabel label={'Password'}>
-                        <FormControl
-                            className={errors.password ? 'is-invalid' : ''}
-                            {...register('password')}
-                            type='password'
-                            placeholder='Type password...'
-                        />
-                        <Feedback type='invalid'>
-                            {errors.password?.message}
-                        </Feedback>
-                    </FloatingLabel>
-                </FormGroup>
-                <div className={'footer'}>
-                    <Button
-                        variant='outline-dark'
-                        className={'submit-button'}
-                        type='submit'
-                        disabled={isLoading}
-                    >
-                        {isLoading ? <Spinner
-                            as='span'
-                            variant='dark'
-                            animation='border'
-                            size='sm'
-                            role='status'
-                            aria-hidden='true'
-                        /> : null}
-                        {isLoading ? ' Loading... ' : ' Sing In '}
-                    </Button>
-                </div>
+                    <div className={'form-title'}>
+                        <h2>Sign In</h2>
+                    </div>
+                    <FormGroup className={'registration-input'}>
+                        <FloatingLabel label={'Email address'}>
+                            <FormControl
+                                className={errors.email ? 'is-invalid' : ''}
+                                {...register('email')}
+                                type='text'
+                                placeholder='name@example.com'
+                            />
+                            <Feedback type='invalid'>
+                                {errors.email?.message}
+                            </Feedback>
+                        </FloatingLabel>
+                    </FormGroup>
+
+                    <FormGroup className={'registration-input'}>
+                        <FloatingLabel label={'Password'}>
+                            <FormControl
+                                className={errors.password ? 'is-invalid' : ''}
+                                {...register('password')}
+                                type='password'
+                                placeholder='Type password...'
+                            />
+                            <Feedback type='invalid'>
+                                {errors.password?.message}
+                            </Feedback>
+                        </FloatingLabel>
+                    </FormGroup>
+                    <div className={'footer'}>
+                        <Button
+                            variant='outline-dark'
+                            className={'submit-button'}
+                            type='submit'
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <Spinner
+                                as='span'
+                                variant='dark'
+                                animation='border'
+                                size='sm'
+                                role='status'
+                                aria-hidden='true'
+                            /> : null}
+                            {isLoading ? ' Loading... ' : ' Sing In '}
+                        </Button>
+                    </div>
 
 
 
-            </form>
+                </form>
+            </div>
         </div>
+
     );
 }
 

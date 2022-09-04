@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
 
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import CRMHeader from './component/header/Header';
 import RegistrationPage from './page/registration/RegistrationPage';
@@ -11,7 +10,8 @@ import LoginPage from "./page/login/LoginPage";
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import {Context} from "./index";
-import UserPage from "./page/user/UserPage";
+import {ToastContainer} from "react-toastify";
+import MainPage from "./page/main/MainPage";
 
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
                         <Route path='signin' element={
                             <Page theme={theme}><LoginPage /></Page>}
                         />
-                        {/*<Route path='organization/:name' element={<OrganizationMainPage/>}/>*/}
+                        <Route path='/home/*' element={<Page theme={theme}> <MainPage /> </Page>} />
                     </Routes>
 
                 </div>

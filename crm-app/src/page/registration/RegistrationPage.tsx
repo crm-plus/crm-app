@@ -46,6 +46,7 @@ const RegistrationPage: FC<RegistrationPageProps> = ({}) => {
     };
 
     return (
+        <div className={'registration-page'}>
             <div className={'registration-form'}>
                 <form onSubmit={handleSubmit(onSubmit)} >
 
@@ -105,6 +106,8 @@ const RegistrationPage: FC<RegistrationPageProps> = ({}) => {
 
                 </form>
             </div>
+        </div>
+
     );
 }
 
