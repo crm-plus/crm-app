@@ -12,6 +12,7 @@ import './App.css'
 import {Context} from "./index";
 import {ToastContainer} from "react-toastify";
 import MainPage from "./page/main/MainPage";
+import ProfilePage from "./page/profile/ProfilePage";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
     const {auth} = useContext(Context);
 
     useEffect(() => {
-        auth.refresh();
+        //auth.refresh();
     }, [])
 
     return (
@@ -30,13 +31,21 @@ function App() {
                     <CRMHeader theme={theme}/>
 
                     <Routes>
-                        <Route path='signup' element={
+                        <Route path='/signup' element={
                             <Page theme={theme}><RegistrationPage/></Page>}
                         />
-                        <Route path='signin' element={
-                            <Page theme={theme}><LoginPage /></Page>}
+                        <Route path='/signin' element={
+                            <Page theme={theme}><LoginPage/></Page>}
                         />
-                        <Route path='/home/*' element={<Page theme={theme}> <MainPage /> </Page>} />
+                        <Route path='/home/*' element={<Page theme={theme}> <MainPage/> </Page>}/>
+                        <Route
+                            path='/profile'
+                            element={
+                                <Page theme={theme}>
+                                    <ProfilePage/>
+                                </Page>
+                            }
+                        />
                     </Routes>
 
                 </div>
