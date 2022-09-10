@@ -70,4 +70,10 @@ public class OrganizationController {
 
         return ResponseEntity.ok(organizationService.findByName(name));
     }
+
+    @GetMapping(path = "/user")
+    public ResponseEntity<List<Organization>> getAllOrganizationUserRelated() {
+
+        return ResponseEntity.ok(organizationService.getAllOrganizationUserRelated());
+    }
 }

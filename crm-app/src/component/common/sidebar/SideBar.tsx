@@ -10,8 +10,6 @@ const SideBar: FC<SideBarProps> = ({
                                        children
                                    }) => {
 
-    const [active, setActive] = useState([]);
-
     return (
         <div className='sidebar'>
             {

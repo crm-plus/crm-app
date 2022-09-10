@@ -1,5 +1,6 @@
 package com.main.server.security.service.impl;
 
+import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.model.Credential;
 import com.main.server.repository.CredentialRepository;
 import com.main.server.security.SecurityUser;
@@ -19,7 +20,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) {
-        Credential credential = credentialRepository.findByEmail(username).get();
+        Credential credential = credentialRepository
+                .findByEmail(username)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                String.format(
+                                        "User by username '%s' does not exist",
+                                        username
+                                )
+                        ));
         return SecurityUser.fromUser(credential.user());
     }
 }

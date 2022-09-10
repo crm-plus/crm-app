@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -38,10 +39,12 @@ public class Organization extends BaseEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
     private User createdBy;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "deleted_by")
     private User deletedBy;
 
     @JsonProperty("createdAt")
@@ -54,7 +57,7 @@ public class Organization extends BaseEntity {
 
     @NotNull
     @JsonProperty("isPrivate")
-    @Column(name = "private", nullable = false)
+    @Column(name = "private")
     private Boolean isPrivate;
 
     @JsonIgnore
