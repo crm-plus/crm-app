@@ -12,6 +12,8 @@ public interface OrganizationService {
 
     List<Organization> getAll();
 
+    List<Organization> getAllOrganizationUserRelated();
+
     Organization getById(Long id) throws ResourceNotFoundException;
 
     Organization delete(Long id) throws ResourceNotFoundException;

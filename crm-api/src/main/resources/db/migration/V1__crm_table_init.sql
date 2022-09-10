@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS organizations
     deleted_by  BIGINT,
     created_at  DATE,
     updated_at  DATE,
-    private     BOOLEAN DEFAULT FALSE NOT NULL,
+    private     BOOLEAN DEFAULT FALSE,
 
     PRIMARY KEY (id),
 

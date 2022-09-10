@@ -6,8 +6,11 @@ import com.main.server.exception.ResourceAlreadyExistException;
 import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.repository.OrganizationRepository;
 import com.main.server.service.OrganizationService;
+import com.main.server.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,6 +26,7 @@ import java.util.Optional;
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
+    private final UserService userService;
 
     /**
      * Save organization
@@ -38,7 +42,9 @@ public class OrganizationServiceImpl implements OrganizationService {
                     String.format("Organization with name %s already exist", organization.name())
             );
         }
-        User user = new User(); // TODO add real user
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByEmail(authentication.getName());
         organization.createdBy(user);
         organization.createdAt(new Date());
         return organizationRepository.save(organization);
@@ -49,7 +55,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public List<Organization> getAll() {
-        return organizationRepository.findAllByDeletedByFalse();
+        return organizationRepository.findAllByDeletedByIsNull();
     }
 
     /**
@@ -106,6 +112,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<Organization> findByName(String name)  {
         return organizationRepository
                 .findAllByNameLikeAndDeletedByNullAndIsPrivateFalse(name);
+    }
+
+    @Override
+    public List<Organization> getAllOrganizationUserRelated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByEmail(authentication.getName());
+        return organizationRepository.findAllByCreatedBy(user);
     }
 
     /**

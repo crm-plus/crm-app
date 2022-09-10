@@ -31,6 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/refreshToken").permitAll()
                 .antMatchers("/api/users/register").permitAll()
                 .antMatchers("/api/users/info").hasAuthority("USER")
+                .anyRequest()
+                .authenticated()
                 .and()
                 .apply(jwtConfigurer);
     }
