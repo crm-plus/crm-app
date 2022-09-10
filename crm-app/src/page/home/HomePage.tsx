@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-import './MainPage.scss'
+import './HomePage.scss'
 import SideBar from "../../component/common/sidebar/SideBar";
 import SideBarNav from "../../component/common/sidebar/SideBarNav";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import OrganizationIcon from "../../component/common/icon/google/OrganizationIcon";
-import OrganizationTab from "./OrganizationTab";
+import OrganizationTab from "./tab/OrganizationTab";
+import SettingsIcon from "../../component/common/icon/google/SettingsIcon";
 
-function MainPage() {
+function HomePage() {
+
+    let navigate = useNavigate()
 
     return (
         <div className='main-page'>
@@ -16,23 +19,18 @@ function MainPage() {
                     links={[
                         {
                             title: 'Organizations',
-                            to: 'org',
+                            to: 'organization',
                             icon: <OrganizationIcon/>,
                             isActive: true
-                        },
-                        // {
-                        //     title: 'Home',
-                        //     to: 'home',
-                        //     icon: <HomeIcon/>
-                        // },
+                        }
                     ]}
                 />
             </SideBar>
             <Routes>
-                <Route path={'org'} element={<OrganizationTab/>}/>
+                <Route path={'organization'} element={<OrganizationTab/>}/>
             </Routes>
         </div>
     );
 }
 
-export default MainPage;
+export default HomePage;

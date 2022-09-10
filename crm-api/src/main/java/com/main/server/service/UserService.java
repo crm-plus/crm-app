@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface UserService {
 
-    User getUser(Long id) throws ResourceNotFoundException;
+    User getUser(Long id);
+
+    User getUserByEmail(String email);
 
     List<User> getAllUsers();
 

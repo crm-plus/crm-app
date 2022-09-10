@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import {Context} from "./index";
 import {ToastContainer} from "react-toastify";
+import HomePage from "./page/home/HomePage";
+import OrganizationPage from "./page/organization/OrganizationPage";
 import MainPage from "./page/main/MainPage";
 import ProfilePage from "./page/profile/ProfilePage";
 
@@ -31,21 +33,14 @@ function App() {
                     <CRMHeader theme={theme}/>
 
                     <Routes>
-                        <Route path='/signup' element={
+                        <Route path='signup' element={
                             <Page theme={theme}><RegistrationPage/></Page>}
                         />
-                        <Route path='/signin' element={
-                            <Page theme={theme}><LoginPage/></Page>}
+                        <Route path='signin' element={
+                            <Page theme={theme}><LoginPage /></Page>}
                         />
-                        <Route path='/home/*' element={<Page theme={theme}> <MainPage/> </Page>}/>
-                        <Route
-                            path='/profile'
-                            element={
-                                <Page theme={theme}>
-                                    <ProfilePage/>
-                                </Page>
-                            }
-                        />
+                        <Route path='/home/*' element={<Page theme={theme}> <HomePage /> </Page>} />
+                        <Route path='organization/:organizationName' element={<Page theme={theme}><OrganizationPage /> </Page>}/>
                     </Routes>
 
                 </div>

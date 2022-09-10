@@ -1,25 +1,25 @@
 import React, {FC} from 'react';
 import {Link} from "react-router-dom";
-import {NavItem, NavLink} from "react-bootstrap";
+import './SideBarNavLink.scss'
 
 interface SideBarNavLinkProps {
     title: string,
-    to: string,
+    to?: string,
     isActive?: boolean,
-    onClick: (title: string) => void
+    onClick?: (title: string) => void
     icon?: React.ReactNode
 }
 
 const SideBarNavLink: FC<SideBarNavLinkProps> = ({
                                                      title,
-                                                     to,
+                                                     to= "",
                                                      isActive,
                                                      onClick,
                                                      icon
                                                  }) => {
     return (
         <Link to={to}>
-            <div className={'sidebar-nav-item ' + (isActive ? 'active' : '')} onClick={() => onClick(title)}>
+            <div className={'sidebar-nav-item ' + (isActive ? 'active' : '')} onClick={() => {if(onClick) onClick(title)}}>
                 {icon}
                 {title}
             </div>
