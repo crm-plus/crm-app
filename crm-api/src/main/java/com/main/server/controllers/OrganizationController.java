@@ -1,12 +1,11 @@
 package com.main.server.controllers;
 
 import com.main.server.model.Organization;
-import com.main.server.exception.ResourceAlreadyExistException;
-import com.main.server.exception.ResourceNotFoundException;
 import com.main.server.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,18 +52,13 @@ public class OrganizationController {
         return new ResponseEntity<>(organizationService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Organization> findById(@PathVariable @NotNull Long id) {
-
-        return new ResponseEntity<>(organizationService.getById(id), HttpStatus.OK);
-    }
-
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Organization> delete(@PathVariable @NotNull Long id) {
 
         return new ResponseEntity<>(organizationService.delete(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasPermission(#name, 'view')")
     @GetMapping(path = "/{name}")
     public ResponseEntity<List<Organization>> findByName(@PathVariable @NotNull String name) {
 
