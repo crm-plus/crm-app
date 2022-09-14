@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users
     credential_id       BIGINT,
     birth_date          DATE,
     residential_address VARCHAR,
-    deleted           BOOLEAN,
+    deleted             BOOLEAN,
     sex                 VARCHAR,
 
     PRIMARY KEY (id),
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS users_roles
 CREATE TABLE IF NOT EXISTS organizations
 (
     id          BIGINT GENERATED ALWAYS AS IDENTITY,
-    name        VARCHAR(16) UNIQUE    NOT NULL,
+    name        VARCHAR(16) UNIQUE NOT NULL,
     description VARCHAR,
-    created_by  BIGINT                NOT NULL,
+    created_by  BIGINT             NOT NULL,
     deleted_by  BIGINT,
     created_at  DATE,
     updated_at  DATE,
@@ -80,24 +80,24 @@ CREATE TABLE IF NOT EXISTS organizations
 CREATE TABLE IF NOT EXISTS organizations_users
 (
     id               BIGINT GENERATED ALWAYS AS IDENTITY,
-    organizations_id BIGINT,
-    users_id         BIGINT,
+    organization_id BIGINT,
+    user_id         BIGINT,
 
     PRIMARY KEY (id),
 
-    CONSTRAINT fk_organizations_id
-        FOREIGN KEY (organizations_id)
+    CONSTRAINT fk_organization_id
+        FOREIGN KEY (organization_id)
             REFERENCES organizations (id),
 
-    CONSTRAINT fk_users_id
-        FOREIGN KEY (users_id)
+    CONSTRAINT fk_user_id
+        FOREIGN KEY (user_id)
             REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS refresh_tokens
 (
     id            BIGINT GENERATED ALWAYS AS IDENTITY,
-    refresh_token  VARCHAR UNIQUE NOT NULL,
+    refresh_token VARCHAR UNIQUE NOT NULL,
     credential_id BIGINT,
 
     PRIMARY KEY (id),
@@ -106,4 +106,22 @@ CREATE TABLE IF NOT EXISTS refresh_tokens
         FOREIGN KEY (credential_id)
             REFERENCES credentials (id)
 
-)
+);
+
+CREATE TABLE IF NOT EXISTS organization_roles
+(
+    id              BIGINT GENERATED ALWAYS AS IDENTITY,
+    type            VARCHAR NOT NULL,
+    organization_id BIGINT,
+    user_id         BIGINT,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_organization_id
+        FOREIGN KEY (organization_id)
+            REFERENCES organizations (id),
+
+    CONSTRAINT fk_user_id
+        FOREIGN KEY (user_id)
+            REFERENCES users (id)
+);
