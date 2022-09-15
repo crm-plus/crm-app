@@ -3,8 +3,8 @@ import AuthService from "../service/AuthService";
 import Credentials from "../type/Credentials";
 
 export default class Auth {
-    isAuth = true;
-    username = 'Yevhenii Malakhov';
+    isAuth = false;
+    username = '';
 
     constructor() {
         makeAutoObservable(this);

@@ -10,8 +10,8 @@ class UserService {
         return axios.post(`${API_URL}/users/register`, credentials);
     }
 
-    static async getUserInfo() {
-        return $api.get<User>(`${API_URL}/users/info`);
+    static async getUserProfile() {
+        return $api.get<User>(`${API_URL}/users/profile`);
     }
 }
 
