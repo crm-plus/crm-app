@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -47,7 +48,6 @@ public class User extends BaseEntity {
     @JoinColumn(name = "credential_id", referencedColumnName = "id")
     private Credential credential;
 
-    @JsonProperty("birthDate")
     @Column(name = "birth_date")
     private Date birthDate;
 
@@ -91,5 +91,15 @@ public class User extends BaseEntity {
 
     public void clearRoles() {
         roles = new HashSet<>();
+    }
+
+    @JsonProperty("email")
+    public String getEmail(){
+        return credential.email();
+    }
+
+    @JsonProperty("birthDate")
+    public String convertDate(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(birthDate);
     }
 }
