@@ -28,11 +28,12 @@ const ProfilePage = () => {
     return (
         <div className="profile-page">
             <div className="left-navbar">
-                <div className="icon-username">
-                    <ProfileIcon imgSrc="1.jpg"/>
-                    <div className="username">{auth.username}</div>
-                </div>
-                <SideBar>
+
+                <SideBar variant={'tabs'}>
+                    <div className="icon-username">
+                        <ProfileIcon imgSrc="1.jpg"/>
+                        <div className="username">{auth.username}</div>
+                    </div>
                     <SideBarNav links={settingButtons}/>
                 </SideBar>
             </div>

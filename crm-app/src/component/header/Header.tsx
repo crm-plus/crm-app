@@ -19,7 +19,7 @@ const Header: FC<CRMHeaderProps> = ({
 
     return (
         <header>
-            <Navbar variant={theme} bg={theme}>
+            <Navbar variant={'dark'} bg={'dark'} >
                 <div className='brand'>
                     <Navbar.Brand as={Link} to={'/home/organization'}>CRM+</Navbar.Brand>
                 </div>

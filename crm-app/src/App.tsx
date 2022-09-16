@@ -13,6 +13,7 @@ import {Context} from "./index";
 import {ToastContainer} from "react-toastify";
 import HomePage from "./page/home/HomePage";
 import ProfilePage from "./page/profile/ProfilePage";
+import OrganizationPage from "./page/organization/OrganizationPage";
 
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
                             <Page theme={theme}><LoginPage /></Page>}
                         />
                         <Route path='/home/*' element={<Page theme={theme}> <HomePage /> </Page>} />
-                        {/*<Route path='organization/:organizationName' element={<Page theme={theme}><OrganizationPage /> </Page>}/>*/}
+                        <Route path='organization/:organizationName' element={<Page theme={theme}><OrganizationPage /> </Page>}/>
                         <Route path='/profile/*' element={<Page theme={theme}> <ProfilePage/> </Page>}/>
                     </Routes>
 

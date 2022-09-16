@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import parse from 'date-fns/parse';
 
 const userSchema = yup.object({
     email: yup.string().email('Email is invalid').required('Email is required'),
