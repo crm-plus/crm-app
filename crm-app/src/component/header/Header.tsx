@@ -6,6 +6,7 @@ import DropDown from '../common/dropdown/DropDown';
 import {Context} from '../../index';
 import {observer} from 'mobx-react-lite';
 import {Link} from 'react-router-dom';
+import Image from "react-bootstrap/Image";
 
 interface CRMHeaderProps {
     theme: 'light' | 'dark'
@@ -19,9 +20,17 @@ const Header: FC<CRMHeaderProps> = ({
 
     return (
         <header>
-            <Navbar variant={theme} bg={theme}>
+            <Navbar variant={'dark'} bg={'dark'} >
                 <div className='brand'>
-                    <Navbar.Brand as={Link} to={'/home/organization'}>CRM+</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={'/home/organization'}>
+                        <img
+                            src="/logo.png"
+                            width="45"
+                            height="45"
+                            className="d-inline-block align-top"
+                            alt="React Bootstrap logo"
+                        />
+                    </Navbar.Brand>
                 </div>
 
                 <Navbar/>
