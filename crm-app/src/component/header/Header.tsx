@@ -6,11 +6,11 @@ import DropDown from '../common/dropdown/DropDown';
 import {Context} from '../../index';
 import {observer} from 'mobx-react-lite';
 import {Link} from 'react-router-dom';
+import {WebSocketClient} from '../../websocket/WebSocketClient'
 
 interface CRMHeaderProps {
     theme: 'light' | 'dark'
 }
-
 const Header: FC<CRMHeaderProps> = ({
                                         theme
                                     }) => {
@@ -19,9 +19,17 @@ const Header: FC<CRMHeaderProps> = ({
 
     return (
         <header>
-            <Navbar variant={theme} bg={theme}>
+            <Navbar variant={'dark'} bg={'dark'} >
                 <div className='brand'>
-                    <Navbar.Brand as={Link} to={'/home/organization'}>CRM+</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={'/home/organization'}>
+                        <img
+                            src="/logo.png"
+                            width="45"
+                            height="45"
+                            className="d-inline-block align-top"
+                            alt="React Bootstrap logo"
+                        />
+                    </Navbar.Brand>
                 </div>
 
                 <Navbar/>
@@ -30,7 +38,7 @@ const Header: FC<CRMHeaderProps> = ({
 
                 </Nav>
 
-                {!auth.isAuth ?
+                {!auth.getIsAuth() ?
                     <Nav className={'left-nav'}>
                         <Nav as={Link} to='/signin'>
                             <div className='nav-item sign-in'>
@@ -52,7 +60,7 @@ const Header: FC<CRMHeaderProps> = ({
                     <Nav className={'left-nav'}>
                         <Nav.Link as={Link} to={'/profile'}>
                             <div className='nav-item'>
-                                {auth.username}
+                                {auth.getUsername()}
                             </div>
                         </Nav.Link>
                         <Nav.Link onClick={() => auth.logout()}>

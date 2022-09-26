@@ -1,5 +1,5 @@
 import Organization from "../type/Organization";
-import $api from "../http";
+import $api from "../http/Http";
 
 class OrganizationService {
 

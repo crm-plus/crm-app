@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 import ApiEndpoint from '../constant/ApiEndpoint';
-import Auth from '../store/auth';
+import {Auth} from '../store/Auth';
 
-const auth = new Auth()
+const auth = Auth.getInstance()
 
 const $api = axios.create({
     baseURL: ApiEndpoint
@@ -21,7 +21,7 @@ $api.interceptors.response.use((config) => {
     const originalRequest = error.config;
     if(error.response.status == 401 && error.config && !error.config._isRetry) {
         originalRequest._isRetry = true;
-        auth.refresh().catch((e) => auth.logout())
+        await auth.refresh()
         return $api.request(originalRequest)
     }
 })

@@ -1,7 +1,7 @@
 import React, {FC, useContext, useState} from 'react';
 import {Button, FloatingLabel, FormControl, FormGroup, Spinner} from 'react-bootstrap';
 import {useForm} from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Feedback from 'react-bootstrap/Feedback';
 import {Link, useNavigate} from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import Credentials from '../../type/Credentials';
 import CredentialSchema from '../../validation/CredentialSchema'
 import {toast} from 'react-toastify';
 import {Context} from '../../index';
+import {WebSocketClient} from "../../websocket/WebSocketClient";
 
 interface LoginPageProps {
 }
@@ -18,7 +19,7 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isValidating }
+        formState: {errors, isValidating}
     } = useForm<Credentials>({
         resolver: yupResolver(CredentialSchema),
         mode: 'all'
@@ -29,10 +30,13 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
 
     const onSubmit = async (credentials: Credentials) => {
         setIsLoading(true);
-        auth.login(credentials).then((response) => {
-            toast.success('You have been successfully log in')
-            setIsLoading(false)
-            navigate('/', {replace: true})
+        auth.login(credentials)
+            .then((response) => {
+                toast.success('You have been successfully log in')
+                setIsLoading(false)
+                navigate('/home', {replace: true})
+            }).then(() => {
+                WebSocketClient.getInstance()
         })
     };
 
@@ -40,7 +44,7 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
 
         <div className={'registration-page'}>
             <div className={'registration-form'}>
-                <form onSubmit={handleSubmit(onSubmit)} >
+                <form onSubmit={handleSubmit(onSubmit)}>
 
                     <div className={'form-title'}>
                         <h2>Sign In</h2>
@@ -90,7 +94,6 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
                             {isLoading ? ' Loading... ' : ' Sing In '}
                         </Button>
                     </div>
-
 
 
                 </form>

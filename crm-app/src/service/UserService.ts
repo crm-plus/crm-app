@@ -1,6 +1,6 @@
 import Credentials from '../type/Credentials';
 import axios from 'axios';
-import $api from '../http';
+import $api from '../http/Http';
 import API_URL from '../constant/ApiEndpoint';
 import User from '../type/User';
 

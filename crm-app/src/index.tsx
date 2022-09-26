@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Auth from "./store/auth";
+import {Auth} from "./store/Auth";
+import {WebSocketClient} from "./websocket/WebSocketClient";
+
 
 interface Store {
-    auth: Auth
+    auth: Auth,
+    wsClient?: WebSocketClient
 }
 
-const auth = new Auth();
+const auth = Auth.getInstance();
 
 export const Context = createContext<Store>({
     auth

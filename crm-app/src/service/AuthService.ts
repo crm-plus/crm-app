@@ -5,13 +5,15 @@ import AuthResponse from '../type/AuthResponse';
 
 class AuthService {
 
-    static async authenticate(credentials: Credentials) : Promise<AuthResponse> {
+    static async authenticate(credentials: Credentials) : Promise<AuthResponse | any> {
         return axios
             .post<AuthResponse>(`${API_URL}/auth/authenticate`, credentials)
-            .then((response) => response.data)
+            .then((response) => {
+                return response.data
+            })
     }
 
-    static async refresh(refreshToken: string) : Promise<AuthResponse> {
+    static async refresh(refreshToken: string) : Promise<AuthResponse | any> {
 
         const body = {
             refreshToken: refreshToken
@@ -19,8 +21,9 @@ class AuthService {
 
         return axios
             .post<AuthResponse>(`${API_URL}/auth/refreshToken`, body)
-            .then((response) => response.data)
-
+            .then((response) => {
+                return response.data;
+            })
     }
 }
 
