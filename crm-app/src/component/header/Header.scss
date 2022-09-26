@@ -1,11 +1,10 @@
 header {
   .navbar {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
 
   .brand {
     .navbar-brand {
-
       color: var(--bs-info) !important;
       font-weight: bold;
     }
@@ -22,7 +21,6 @@ header {
       display: flex;
       flex-direction: row;
       gap: 0.3rem;
-
     }
 
     .nav-item.sign-in {

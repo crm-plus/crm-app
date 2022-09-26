@@ -7,10 +7,12 @@ import {Context} from '../../index';
 import {observer} from 'mobx-react-lite';
 import {Link} from 'react-router-dom';
 import {WebSocketClient} from '../../websocket/WebSocketClient'
+import Image from "react-bootstrap/Image";
 
 interface CRMHeaderProps {
     theme: 'light' | 'dark'
 }
+
 const Header: FC<CRMHeaderProps> = ({
                                         theme
                                     }) => {
