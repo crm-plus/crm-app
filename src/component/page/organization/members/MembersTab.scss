@@ -1,0 +1,77 @@
+.members-tab {
+  padding: 5%;
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1.5px solid var(--bs-gray-400);
+    padding-bottom: 0.3rem;
+
+    .invite-btn {
+      border: none;
+      padding: 0.2rem 0.4rem;
+      height: 1.8rem;
+      border-radius: 0.2rem;
+      background-color: rgba(13, 202, 240, 0.53);
+      display: flex;
+      flex-direction: row;
+      gap: 0.2rem;
+      overflow: hidden;
+    }
+
+    .invite-btn:hover {
+      background-color: rgba(13, 202, 240, 0.83);
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+
+    .all-members {
+      width: 100%;
+
+      .members-info {
+        border-bottom: 1.5px solid var(--bs-gray-400);
+      }
+
+      .search-bar {
+        padding: 1rem 0;
+        border-bottom: 1.5px solid var(--bs-gray-400);
+
+        .search-input {
+          width: 40%;
+        }
+      }
+
+      .members-list {
+        display: flex;
+        flex-direction: column;
+
+        .member-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 0.5rem;
+          align-items: center;
+
+          .member-info {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+            color: var(--bs-gray-800);
+            align-items: center;
+
+          }
+        }
+      }
+    }
+  }
+}
