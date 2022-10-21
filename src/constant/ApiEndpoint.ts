@@ -1,4 +1,4 @@
-const PROTOCOL = 'http://';
+const PROTOCOL = 'https://';
 //const HOST = 'localhost';
 const HOST = 'crm-plus-api.eu-central-1.elasticbeanstalk.com';
 const PORT = '8888';
