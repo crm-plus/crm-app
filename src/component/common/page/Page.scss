@@ -1,0 +1,8 @@
+.page {
+  height: calc(100% - 61px);
+  background-color: white;
+}
+
+.page.dark {
+  background-color: var(--bs-gray-800);
+}
